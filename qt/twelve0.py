@@ -274,55 +274,48 @@ class Ui_MainWindow(object):
         self.btnExport.setObjectName("btnExport")
         self.stackedWidget.addWidget(self.page_historial)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 28))
-        self.menubar.setObjectName("menubar")
-        self.menuConf = QtWidgets.QMenu(self.menubar)
-        self.menuConf.setObjectName("menuConf")
-        self.menuSalir = QtWidgets.QMenu(self.menubar)
-        self.menuSalir.setObjectName("menuSalir")
-        self.menuInicio = QtWidgets.QMenu(self.menubar)
-        self.menuInicio.setObjectName("menuInicio")
-        MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.menubar.addAction(self.menuInicio.menuAction())
-        self.menubar.addAction(self.menuConf.menuAction())
-        self.menubar.addAction(self.menuSalir.menuAction())
+        self.toolBar = QtWidgets.QToolBar(MainWindow)
+        self.toolBar.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
+        self.toolBar.setObjectName("toolBar")
+        MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
+        self.actionInicio = QtWidgets.QAction(MainWindow)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("images/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionInicio.setIcon(icon3)
+        self.actionInicio.setObjectName("actionInicio")
+        self.actionInicio.setStatusTip('Regresar a inicio')
+        self.actionInicio.triggered.connect(self.menu_inicio)
+
+        self.actionConfiguraci_n = QtWidgets.QAction(MainWindow)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("images/conf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionConfiguraci_n.setIcon(icon4)
+        self.actionConfiguraci_n.setObjectName("actionConfiguraci_n")
+        self.actionConfiguraci_n.setStatusTip('Configuraciones')
+
+        self.actionSalir = QtWidgets.QAction(MainWindow)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap("images/exit24.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionSalir.setIcon(icon5)
+        self.actionSalir.setObjectName("actionSalir")
+        self.actionSalir.setStatusTip('Salir de la aplicación')
+        self.actionSalir.triggered.connect(self.closeEvent)
+
+        self.toolBar.addAction(self.actionInicio)
+        self.toolBar.addSeparator()
+        self.toolBar.addAction(self.actionConfiguraci_n)
+        self.toolBar.addSeparator()
+        self.toolBar.addAction(self.actionSalir)
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        exitAct = QtWidgets.QAction(QIcon('images/exit24.png'), 'Salir', MainWindow)
-        exitAct.setShortcut('Ctrl+Q')
-        exitAct.setStatusTip('Salir de la aplicación')
-        exitAct.triggered.connect(MainWindow.close)
-
-        homeAct = QtWidgets.QAction(QIcon('images/home.png'), 'Inicio', MainWindow)
-        homeAct.setShortcut('Ctrl+A')
-        homeAct.setStatusTip('Regresar a inicio')
-        homeAct.triggered.connect(self.menu_inicio)
-
-        confAct = QtWidgets.QAction(QIcon('images/conf.png'), 'Configuración', MainWindow)
-        confAct.setShortcut('Ctrl+W')
-        confAct.setStatusTip('Configuraciones')
-        confAct.triggered.connect(self.menu_inicio)
-
-        self.menuSalir.addAction(exitAct)
-        #self.menuSalir.addAction(setShortcut('Ctrl+Q'))
-
-        self.menuSalir.triggered.connect(self.prueba)
-
-        self.menuInicio.triggered.connect(self.menu_inicio)
         self.btnPrueba.clicked.connect(self.prueba)
-        self.btnRegistrar.clicked.connect(self.menu_inicio)
-
-        toolbar = MainWindow.addToolBar('Exit')
-        toolbar.addAction(exitAct)
-        toolbar.addAction(homeAct)
-        toolbar.addAction(confAct)
+        self.btnRegistrar.clicked.connect(self.seleccion)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -379,15 +372,34 @@ class Ui_MainWindow(object):
         item = self.listWidgetHistorial.item(5)
         item.setText(_translate("MainWindow", "New Item"))
         self.listWidgetHistorial.setSortingEnabled(__sortingEnabled)
-        self.menuConf.setTitle(_translate("MainWindow", "Configuración"))
-        self.menuSalir.setTitle(_translate("MainWindow", "Salir"))
-        self.menuInicio.setTitle(_translate("MainWindow", "Inicio"))
+        self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
+        self.actionInicio.setText(_translate("MainWindow", "Inicio"))
+        self.actionInicio.setToolTip(_translate("MainWindow", "Regresar a inicio"))
+        self.actionConfiguraci_n.setText(_translate("MainWindow", "Configuración"))
+        self.actionConfiguraci_n.setToolTip(_translate("MainWindow", "Configuraciones"))
+        self.actionSalir.setText(_translate("MainWindow", "Salir"))
+        self.actionSalir.setToolTip(_translate("MainWindow", "Salir de la aplicación"))
+        self.actionSalir.setShortcut(_translate("MainWindow", "Ctrl+Q"))
 
     def menu_inicio(self):
           self.stackedWidget.setCurrentIndex(0)
 
     def prueba(self):
           self.stackedWidget.setCurrentIndex(1)
+
+    def seleccion(self):
+          self.stackedWidget.setCurrentIndex(2)
+
+    def closeEvent(self):
+
+        reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
+            "Estas seguro de salir?", QtWidgets.QMessageBox.Yes |
+            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
+
+        if reply == QtWidgets.QMessageBox.Yes:
+            MainWindow.close()
+
+
 
 if __name__ == "__main__":
     import sys

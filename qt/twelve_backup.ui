@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
         self.stackedWidget.setEnabled(True)
-        self.stackedWidget.setGeometry(QtCore.QRect(10, 10, 781, 521))
+        self.stackedWidget.setGeometry(QtCore.QRect(10, 10, 781, 551))
         self.stackedWidget.setMouseTracking(False)
         self.stackedWidget.setObjectName("stackedWidget")
         self.page_bienvenida = QtWidgets.QWidget()
@@ -295,34 +295,16 @@ class Ui_MainWindow(object):
         self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        exitAct = QtWidgets.QAction(QIcon('images/exit24.png'), 'Salir', MainWindow)
-        exitAct.setShortcut('Ctrl+Q')
-        exitAct.setStatusTip('Salir de la aplicación')
-        exitAct.triggered.connect(MainWindow.close)
 
-        homeAct = QtWidgets.QAction(QIcon('images/home.png'), 'Inicio', MainWindow)
-        homeAct.setShortcut('Ctrl+A')
-        homeAct.setStatusTip('Regresar a inicio')
-        homeAct.triggered.connect(self.menu_inicio)
 
-        confAct = QtWidgets.QAction(QIcon('images/conf.png'), 'Configuración', MainWindow)
-        confAct.setShortcut('Ctrl+W')
-        confAct.setStatusTip('Configuraciones')
-        confAct.triggered.connect(self.menu_inicio)
-
-        self.menuSalir.addAction(exitAct)
-        #self.menuSalir.addAction(setShortcut('Ctrl+Q'))
+        self.menuSalir.addAction("Salir")
+        self.menuSalir.addAction(QIcon('exit24.png'), 'Exit')
 
         self.menuSalir.triggered.connect(self.prueba)
 
         self.menuInicio.triggered.connect(self.menu_inicio)
         self.btnPrueba.clicked.connect(self.prueba)
         self.btnRegistrar.clicked.connect(self.menu_inicio)
-
-        toolbar = MainWindow.addToolBar('Exit')
-        toolbar.addAction(exitAct)
-        toolbar.addAction(homeAct)
-        toolbar.addAction(confAct)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -395,5 +377,6 @@ if __name__ == "__main__":
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
+    MainWindow.statusBar()
     MainWindow.show()
     sys.exit(app.exec_())

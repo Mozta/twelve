@@ -23,14 +23,14 @@
       <x>10</x>
       <y>10</y>
       <width>781</width>
-      <height>551</height>
+      <height>521</height>
      </rect>
     </property>
     <property name="mouseTracking">
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page_bienvenida">
      <widget class="QWidget" name="layoutWidget">
@@ -748,35 +748,65 @@
     </widget>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuConf">
-    <property name="title">
-     <string>Configuración</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuSalir">
-    <property name="title">
-     <string>Salir</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuInicio">
-    <property name="title">
-     <string>Inicio</string>
-    </property>
-   </widget>
-   <addaction name="menuInicio"/>
-   <addaction name="menuConf"/>
-   <addaction name="menuSalir"/>
-  </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionInicio"/>
+   <addaction name="separator"/>
+   <addaction name="actionConfiguraci_n"/>
+   <addaction name="separator"/>
+   <addaction name="actionSalir"/>
+  </widget>
+  <action name="actionInicio">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/home.png</normaloff>images/home.png</iconset>
+   </property>
+   <property name="text">
+    <string>Inicio</string>
+   </property>
+   <property name="toolTip">
+    <string>Regresar a inicio</string>
+   </property>
+  </action>
+  <action name="actionConfiguraci_n">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/conf.png</normaloff>images/conf.png</iconset>
+   </property>
+   <property name="text">
+    <string>Configuración</string>
+   </property>
+   <property name="toolTip">
+    <string>Configuraciones</string>
+   </property>
+  </action>
+  <action name="actionSalir">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/exit24.png</normaloff>images/exit24.png</iconset>
+   </property>
+   <property name="text">
+    <string>Salir</string>
+   </property>
+   <property name="toolTip">
+    <string>Salir de la aplicación</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
