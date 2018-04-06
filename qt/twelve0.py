@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# Autor: Rafael Pérez Aguirre
+
 # Form implementation generated from reading ui file 'twelve.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
@@ -8,6 +10,14 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon
+
+#My imports
+import petl as etl
+import psycopg2
+
+# Variables globales
+connection = psycopg2.connect('dbname=twelveBD user=postgres password=admin')
+table_personas = etl.fromdb(connection, 'SELECT * FROM personas')
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -382,13 +392,28 @@ class Ui_MainWindow(object):
         self.actionSalir.setShortcut(_translate("MainWindow", "Ctrl+Q"))
 
     def menu_inicio(self):
-          self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(0)
 
     def prueba(self):
-          self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(1)
 
     def seleccion(self):
-          self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(2)
+        #print (self.txtNombre.toPlainText())
+        #print (self.comboBoxSexo.currentText())
+        #print (self.spinBoxEdad.value())
+        if self.comboBoxSexo.currentText() == 'Masculino' :
+            sexo = 'm'
+        else :
+            sexo = 'f'
+
+        table1 = [['nombre','sexo','edad'],[self.txtNombre.toPlainText(),sexo,self.spinBoxEdad.value()]]
+        etl.appenddb(table1, connection, 'personas')
+
+        #self.comboBoxSexo.text()
+        #self.spinBoxEdad.text()
+
+
 
     def closeEvent(self):
 
