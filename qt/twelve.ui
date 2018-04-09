@@ -30,7 +30,7 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="page_bienvenida">
      <widget class="QWidget" name="layoutWidget">
@@ -744,6 +744,162 @@
        <iconset>
         <normaloff>images/export.png</normaloff>images/export.png</iconset>
       </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_empresas">
+     <widget class="QTextEdit" name="txtNombreEmpresa">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>280</y>
+        <width>361</width>
+        <height>41</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>182</x>
+        <y>290</y>
+        <width>151</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Nombre de la empresa</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnRegistrar_2">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>550</y>
+        <width>171</width>
+        <height>36</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Siguiente</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>350</y>
+        <width>63</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Dirección</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="txtDireccionEmpresa">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>340</y>
+        <width>361</width>
+        <height>41</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>410</y>
+        <width>63</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Surcursal</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="spinBoxEmpresa">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>400</y>
+        <width>108</width>
+        <height>36</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnGuardarEmpresa">
+      <property name="geometry">
+       <rect>
+        <x>611</x>
+        <y>440</y>
+        <width>131</width>
+        <height>36</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Guardar empresa</string>
+      </property>
+     </widget>
+     <widget class="QScrollArea" name="scrollArea_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>731</width>
+        <height>201</height>
+       </rect>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>727</width>
+         <height>197</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QListWidget" name="listEmpresas">
+          <item>
+           <property name="text">
+            <string>Prueba 1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Prueba 2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Prueba 3</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Prueba 4</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Prueba 5</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
    </widget>

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Autor: Rafael Pérez Aguirre
-
 # Form implementation generated from reading ui file 'twelve.ui'
 #
 # Created by: PyQt5 UI code generator 5.10.1
@@ -283,6 +281,46 @@ class Ui_MainWindow(object):
         self.btnExport.setIcon(icon2)
         self.btnExport.setObjectName("btnExport")
         self.stackedWidget.addWidget(self.page_historial)
+        self.page_empresas = QtWidgets.QWidget()
+        self.page_empresas.setObjectName("page_empresas")
+        self.txtNombreEmpresa = QtWidgets.QTextEdit(self.page_empresas)
+        self.txtNombreEmpresa.setGeometry(QtCore.QRect(350, 280, 361, 41))
+        self.txtNombreEmpresa.setObjectName("txtNombreEmpresa")
+        self.label_7 = QtWidgets.QLabel(self.page_empresas)
+        self.label_7.setGeometry(QtCore.QRect(182, 290, 151, 20))
+        self.label_7.setObjectName("label_7")
+        self.btnRegistrar_2 = QtWidgets.QPushButton(self.page_empresas)
+        self.btnRegistrar_2.setGeometry(QtCore.QRect(580, 550, 171, 36))
+        self.btnRegistrar_2.setObjectName("btnRegistrar_2")
+        self.label_8 = QtWidgets.QLabel(self.page_empresas)
+        self.label_8.setGeometry(QtCore.QRect(270, 350, 63, 20))
+        self.label_8.setObjectName("label_8")
+        self.txtDireccionEmpresa = QtWidgets.QTextEdit(self.page_empresas)
+        self.txtDireccionEmpresa.setGeometry(QtCore.QRect(350, 340, 361, 41))
+        self.txtDireccionEmpresa.setObjectName("txtDireccionEmpresa")
+        self.label_9 = QtWidgets.QLabel(self.page_empresas)
+        self.label_9.setGeometry(QtCore.QRect(270, 410, 63, 20))
+        self.label_9.setObjectName("label_9")
+        self.spinBoxEmpresa = QtWidgets.QSpinBox(self.page_empresas)
+        self.spinBoxEmpresa.setGeometry(QtCore.QRect(350, 400, 108, 36))
+        self.spinBoxEmpresa.setObjectName("spinBoxEmpresa")
+        self.btnGuardarEmpresa = QtWidgets.QPushButton(self.page_empresas)
+        self.btnGuardarEmpresa.setGeometry(QtCore.QRect(611, 440, 131, 36))
+        self.btnGuardarEmpresa.setObjectName("btnGuardarEmpresa")
+        self.scrollArea_2 = QtWidgets.QScrollArea(self.page_empresas)
+        self.scrollArea_2.setGeometry(QtCore.QRect(20, 20, 731, 201))
+        self.scrollArea_2.setWidgetResizable(True)
+        self.scrollArea_2.setObjectName("scrollArea_2")
+        self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 727, 197))
+        self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents_2)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+
+
+
+        self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
+        self.stackedWidget.addWidget(self.page_empresas)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -291,6 +329,7 @@ class Ui_MainWindow(object):
         self.toolBar.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.toolBar.setObjectName("toolBar")
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
+
         self.actionInicio = QtWidgets.QAction(MainWindow)
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap("images/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -305,6 +344,7 @@ class Ui_MainWindow(object):
         self.actionConfiguraci_n.setIcon(icon4)
         self.actionConfiguraci_n.setObjectName("actionConfiguraci_n")
         self.actionConfiguraci_n.setStatusTip('Configuraciones')
+        self.actionConfiguraci_n.triggered.connect(self.configuraciones)
 
         self.actionSalir = QtWidgets.QAction(MainWindow)
         icon5 = QtGui.QIcon()
@@ -324,8 +364,11 @@ class Ui_MainWindow(object):
         self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        #Mio
         self.btnPrueba.clicked.connect(self.prueba)
         self.btnRegistrar.clicked.connect(self.seleccion)
+
+        self.btnGuardarEmpresa.clicked.connect(self.llenarListaEmpresas)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -382,6 +425,12 @@ class Ui_MainWindow(object):
         item = self.listWidgetHistorial.item(5)
         item.setText(_translate("MainWindow", "New Item"))
         self.listWidgetHistorial.setSortingEnabled(__sortingEnabled)
+        self.label_7.setText(_translate("MainWindow", "Nombre de la empresa"))
+        self.btnRegistrar_2.setText(_translate("MainWindow", "Siguiente"))
+        self.label_8.setText(_translate("MainWindow", "Dirección"))
+        self.label_9.setText(_translate("MainWindow", "Surcursal"))
+        self.btnGuardarEmpresa.setText(_translate("MainWindow", "Guardar empresa"))
+
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.actionInicio.setText(_translate("MainWindow", "Inicio"))
         self.actionInicio.setToolTip(_translate("MainWindow", "Regresar a inicio"))
@@ -413,6 +462,41 @@ class Ui_MainWindow(object):
         #self.comboBoxSexo.text()
         #self.spinBoxEdad.text()
 
+    def configuraciones(self):
+        self.stackedWidget.setCurrentIndex(6)
+
+    def llenarListaEmpresas(self):
+        self.listEmpresas = QtWidgets.QListWidget(self.scrollAreaWidgetContents_2)
+        self.listEmpresas.setObjectName("listEmpresas")
+
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        self.horizontalLayout_3.addWidget(self.listEmpresas)
+
+        __sortingEnabled = self.listEmpresas.isSortingEnabled()
+        self.listEmpresas.setSortingEnabled(False)
+        item = self.listEmpresas.item(0)
+        item.setText("Prueba 33")
+        item = self.listEmpresas.item(1)
+        item.setText("Prueba 2")
+        item = self.listEmpresas.item(2)
+        item.setText("Prueba 3")
+        item = self.listEmpresas.item(3)
+        item.setText("Prueba 4")
+        item = self.listEmpresas.item(4)
+        item.setText("Prueba 5")
+
+        self.listEmpresas.setSortingEnabled(__sortingEnabled)
 
 
     def closeEvent(self):
@@ -423,7 +507,6 @@ class Ui_MainWindow(object):
 
         if reply == QtWidgets.QMessageBox.Yes:
             MainWindow.close()
-
 
 
 if __name__ == "__main__":
