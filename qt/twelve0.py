@@ -17,6 +17,14 @@ import psycopg2
 connection = psycopg2.connect('dbname=twelveBD user=postgres password=admin')
 table_personas = etl.fromdb(connection, 'SELECT * FROM personas')
 
+#indice para recorrrer la lista de empresas
+iEmpresa = 0
+
+#Obtener empresa seleccionada para los registros de pruebas
+midEmpresa = 1
+#Obtener tipo de prueba seleccionada para los registros de pruebas
+midTipo = 1
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -91,8 +99,9 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_registro)
         self.page_seleccion = QtWidgets.QWidget()
         self.page_seleccion.setObjectName("page_seleccion")
+
         self.frame = QtWidgets.QFrame(self.page_seleccion)
-        self.frame.setGeometry(QtCore.QRect(20, 30, 276, 471))
+        self.frame.setGeometry(QtCore.QRect(20, 30, 276, 451))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -104,26 +113,13 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.label_4)
         self.listWidgetPresets = QtWidgets.QListWidget(self.frame)
         self.listWidgetPresets.setObjectName("listWidgetPresets")
-        item = QtWidgets.QListWidgetItem()
-        self.listWidgetPresets.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidgetPresets.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidgetPresets.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidgetPresets.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidgetPresets.addItem(item)
+
         self.verticalLayout.addWidget(self.listWidgetPresets)
-        self.btnFicha1 = QtWidgets.QPushButton(self.page_seleccion)
-        self.btnFicha1.setGeometry(QtCore.QRect(330, 120, 191, 61))
-        self.btnFicha1.setObjectName("btnFicha1")
-        self.btnFicha2 = QtWidgets.QPushButton(self.page_seleccion)
-        self.btnFicha2.setGeometry(QtCore.QRect(330, 220, 191, 61))
-        self.btnFicha2.setObjectName("btnFicha2")
-        self.btnFicha3 = QtWidgets.QPushButton(self.page_seleccion)
-        self.btnFicha3.setGeometry(QtCore.QRect(330, 320, 191, 61))
-        self.btnFicha3.setObjectName("btnFicha3")
+
+        self.btnSeleccionarTipo = QtWidgets.QPushButton(self.frame)
+        self.btnSeleccionarTipo.setObjectName("btnSeleccionarTipo")
+
+        self.verticalLayout.addWidget(self.btnSeleccionarTipo)
         self.btnAddPreset = QtWidgets.QPushButton(self.page_seleccion)
         self.btnAddPreset.setGeometry(QtCore.QRect(370, 440, 111, 36))
         self.btnAddPreset.setObjectName("btnAddPreset")
@@ -142,6 +138,25 @@ class Ui_MainWindow(object):
         self.btnRun = QtWidgets.QPushButton(self.page_seleccion)
         self.btnRun.setGeometry(QtCore.QRect(560, 440, 201, 36))
         self.btnRun.setObjectName("btnRun")
+        self.comboBtnFicha1 = QtWidgets.QComboBox(self.page_seleccion)
+        self.comboBtnFicha1.setGeometry(QtCore.QRect(330, 120, 191, 61))
+        self.comboBtnFicha1.setObjectName("comboBtnFicha1")
+        self.comboBtnFicha1.addItem("")
+        self.comboBtnFicha1.addItem("")
+        self.comboBtnFicha1.addItem("")
+        self.comboBtnFicha2 = QtWidgets.QComboBox(self.page_seleccion)
+        self.comboBtnFicha2.setGeometry(QtCore.QRect(330, 220, 191, 61))
+        self.comboBtnFicha2.setObjectName("comboBtnFicha2")
+        self.comboBtnFicha2.addItem("")
+        self.comboBtnFicha2.addItem("")
+        self.comboBtnFicha2.addItem("")
+        self.comboBtnFicha3 = QtWidgets.QComboBox(self.page_seleccion)
+        self.comboBtnFicha3.setGeometry(QtCore.QRect(330, 320, 191, 61))
+        self.comboBtnFicha3.setObjectName("comboBtnFicha3")
+        self.comboBtnFicha3.addItem("")
+        self.comboBtnFicha3.addItem("")
+        self.comboBtnFicha3.addItem("")
+
         self.stackedWidget.addWidget(self.page_seleccion)
         self.page_ejecucion = QtWidgets.QWidget()
         self.page_ejecucion.setObjectName("page_ejecucion")
@@ -320,6 +335,11 @@ class Ui_MainWindow(object):
 
 
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
+
+        self.btnSeleccionarEmpresa = QtWidgets.QPushButton(self.page_empresas)
+        self.btnSeleccionarEmpresa.setGeometry(QtCore.QRect(610, 230, 131, 36))
+        self.btnSeleccionarEmpresa.setObjectName("btnSeleccionarEmpresa")
+
         self.stackedWidget.addWidget(self.page_empresas)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -366,9 +386,12 @@ class Ui_MainWindow(object):
 
         #Mio
         self.btnPrueba.clicked.connect(self.prueba)
-        self.btnRegistrar.clicked.connect(self.seleccion)
+        self.btnRegistrar.clicked.connect(self.registrarPersona)
 
-        self.btnGuardarEmpresa.clicked.connect(self.llenarListaEmpresas)
+        self.btnGuardarEmpresa.clicked.connect(self.anadirListaEmpresas)
+        self.btnSeleccionarEmpresa.clicked.connect(self.seleccionarEmpresa)
+
+        self.btnSeleccionarTipo.clicked.connect(self.seleccionarTipo)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -383,22 +406,18 @@ class Ui_MainWindow(object):
         self.comboBoxSexo.setItemText(0, _translate("MainWindow", "Masculino"))
         self.comboBoxSexo.setItemText(1, _translate("MainWindow", "Femenino"))
         self.label_4.setText(_translate("MainWindow", "Presets"))
-        __sortingEnabled = self.listWidgetPresets.isSortingEnabled()
-        self.listWidgetPresets.setSortingEnabled(False)
-        item = self.listWidgetPresets.item(0)
-        item.setText(_translate("MainWindow", "Fácil"))
-        item = self.listWidgetPresets.item(1)
-        item.setText(_translate("MainWindow", "Intermedio"))
-        item = self.listWidgetPresets.item(2)
-        item.setText(_translate("MainWindow", "Dificil"))
-        item = self.listWidgetPresets.item(3)
-        item.setText(_translate("MainWindow", "Veterano"))
-        item = self.listWidgetPresets.item(4)
-        item.setText(_translate("MainWindow", "Dios"))
-        self.listWidgetPresets.setSortingEnabled(__sortingEnabled)
-        self.btnFicha1.setText(_translate("MainWindow", "Rojo"))
-        self.btnFicha2.setText(_translate("MainWindow", "Azul"))
-        self.btnFicha3.setText(_translate("MainWindow", "Verde"))
+
+        self.comboBtnFicha1.setItemText(0, _translate("MainWindow", "Rojo"))
+        self.comboBtnFicha1.setItemText(1, _translate("MainWindow", "Verde"))
+        self.comboBtnFicha1.setItemText(2, _translate("MainWindow", "Azul"))
+        self.comboBtnFicha2.setItemText(0, _translate("MainWindow", "Rojo"))
+        self.comboBtnFicha2.setItemText(1, _translate("MainWindow", "Verde"))
+        self.comboBtnFicha2.setItemText(2, _translate("MainWindow", "Azul"))
+        self.comboBtnFicha3.setItemText(0, _translate("MainWindow", "Rojo"))
+        self.comboBtnFicha3.setItemText(1, _translate("MainWindow", "Verde"))
+        self.comboBtnFicha3.setItemText(2, _translate("MainWindow", "Azul"))
+
+        self.btnSeleccionarTipo.setText(_translate("MainWindow", "Seleccionar tipo de prueba"))
         self.btnAddPreset.setText(_translate("MainWindow", "Añadir preset"))
         self.label_5.setText(_translate("MainWindow", "No. Fichas"))
         self.label_6.setText(_translate("MainWindow", "Tiempo"))
@@ -425,6 +444,7 @@ class Ui_MainWindow(object):
         item = self.listWidgetHistorial.item(5)
         item.setText(_translate("MainWindow", "New Item"))
         self.listWidgetHistorial.setSortingEnabled(__sortingEnabled)
+        self.btnSeleccionarEmpresa.setText(_translate("MainWindow", "Guardar empresa"))
         self.label_7.setText(_translate("MainWindow", "Nombre de la empresa"))
         self.btnRegistrar_2.setText(_translate("MainWindow", "Siguiente"))
         self.label_8.setText(_translate("MainWindow", "Dirección"))
@@ -440,67 +460,133 @@ class Ui_MainWindow(object):
         self.actionSalir.setToolTip(_translate("MainWindow", "Salir de la aplicación"))
         self.actionSalir.setShortcut(_translate("MainWindow", "Ctrl+Q"))
 
+    #Funcion para cambiar al panel inicio
     def menu_inicio(self):
         self.stackedWidget.setCurrentIndex(0)
 
+    #Funcion para cambiar al panel registro de prueba
     def prueba(self):
         self.stackedWidget.setCurrentIndex(1)
 
-    def seleccion(self):
+    #Funcion para añadir el registro de una nueva prueba (datos de la persona)
+    def registrarPersona(self):
         self.stackedWidget.setCurrentIndex(2)
         #print (self.txtNombre.toPlainText())
         #print (self.comboBoxSexo.currentText())
         #print (self.spinBoxEdad.value())
-        if self.comboBoxSexo.currentText() == 'Masculino' :
-            sexo = 'm'
-        else :
-            sexo = 'f'
 
-        table1 = [['nombre','sexo','edad'],[self.txtNombre.toPlainText(),sexo,self.spinBoxEdad.value()]]
-        etl.appenddb(table1, connection, 'personas')
+        #--------- BEGIN Registrar persona ------------
+        #if self.comboBoxSexo.currentText() == 'Masculino' :
+        #    sexo = 'm'
+        #else :
+        #    sexo = 'f'
 
+        #table1 = [['nombre','sexo','edad'],[self.txtNombre.toPlainText(),sexo,self.spinBoxEdad.value()]]
+        #etl.appenddb(table1, connection, 'personas')
+        #--------- END Registrar persona ------------
+
+        self.llenarListaTipos()
         #self.comboBoxSexo.text()
         #self.spinBoxEdad.text()
 
+    #Funcion para registrar una nueva empresa en la BD
+    def anadirListaEmpresas(self):
+        global iEmpresa
+
+        table1 = [['nombre','sucursal','direccion'],[self.txtNombreEmpresa.toPlainText(),self.spinBoxEmpresa.value(),self.txtDireccionEmpresa.toPlainText()]]
+        etl.appenddb(table1, connection, 'empresas')
+
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+
+        item = self.listEmpresas.item(iEmpresa)
+        item.setText(self.txtNombreEmpresa.toPlainText())
+
+    #Funcion para obtener el id de la empresa configurada
+    def seleccionarEmpresa(self):
+        global midEmpresa
+        a = self.listEmpresas.selectedIndexes()[0]
+        midEmpresa = a.row() + 1
+        print (midEmpresa)
+        self.stackedWidget.setCurrentIndex(0)
+
+    def seleccionarTipo(self):
+        global midTipo
+        a = self.listWidgetPresets.selectedIndexes()[0]
+        midTipo = a.row()
+        print (midTipo)
+        tipos = etl.fromdb(connection, 'SELECT * FROM tipos')
+        b = tipos.data()
+
+        #Cambiar contenido de elementos UI al tipo de prueba seleccionado
+        self.comboBtnFicha1.setCurrentIndex(b[midTipo][4] -1)
+        self.comboBtnFicha2.setCurrentIndex(b[midTipo][5] -1)
+        self.comboBtnFicha3.setCurrentIndex(b[midTipo][6] -1)
+
+        self.spinBox_2.setValue(b[midTipo][2])
+        x = b[midTipo][3]
+        some_time = QtCore.QTime(00,x)
+        self.timeEdit.setTime(some_time)
+
+    #Funcion para mostrar el panel de configuraciones
     def configuraciones(self):
         self.stackedWidget.setCurrentIndex(6)
+        self.llenarListaEmpresas()
 
+    #Funcion que hace el query para llenar la lista de empresas de la BD
     def llenarListaEmpresas(self):
+        global iEmpresa
+
         self.listEmpresas = QtWidgets.QListWidget(self.scrollAreaWidgetContents_2)
         self.listEmpresas.setObjectName("listEmpresas")
 
-        item = QtWidgets.QListWidgetItem()
-        self.listEmpresas.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listEmpresas.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listEmpresas.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listEmpresas.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listEmpresas.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listEmpresas.addItem(item)
+        empresas = etl.fromdb(connection, 'SELECT * FROM empresas')
+
+        for empresa in etl.data(empresas):
+            item = QtWidgets.QListWidgetItem()
+            self.listEmpresas.addItem(item)
+
         self.horizontalLayout_3.addWidget(self.listEmpresas)
 
         __sortingEnabled = self.listEmpresas.isSortingEnabled()
         self.listEmpresas.setSortingEnabled(False)
-        item = self.listEmpresas.item(0)
-        item.setText("Prueba 33")
-        item = self.listEmpresas.item(1)
-        item.setText("Prueba 2")
-        item = self.listEmpresas.item(2)
-        item.setText("Prueba 3")
-        item = self.listEmpresas.item(3)
-        item.setText("Prueba 4")
-        item = self.listEmpresas.item(4)
-        item.setText("Prueba 5")
+
+        iEmpresa = 0
+        for empresa in etl.data(empresas):
+            item = self.listEmpresas.item(iEmpresa)
+            item.setText(empresa[1])
+            iEmpresa += 1
 
         self.listEmpresas.setSortingEnabled(__sortingEnabled)
 
+    #Funcion que hace el query para llenar la lista de empresas de la BD
+    def llenarListaTipos(self):
+        global iEmpresa
 
+        #self.listWidgetPresets = QtWidgets.QListWidget(self.frame)
+        #self.listWidgetPresets.setObjectName("listWidgetPresets")
+
+        tipos = etl.fromdb(connection, 'SELECT * FROM tipos')
+
+        for tipo in etl.data(tipos):
+            item = QtWidgets.QListWidgetItem()
+            self.listWidgetPresets.addItem(item)
+
+        #self.horizontalLayout_3.addWidget(self.listWidgetPresets)
+
+        __sortingEnabled = self.listWidgetPresets.isSortingEnabled()
+        self.listWidgetPresets.setSortingEnabled(False)
+
+        iEmpresa = 0
+        for tipo in etl.data(tipos):
+            item = self.listWidgetPresets.item(iEmpresa)
+            item.setText(tipo[1])
+            iEmpresa += 1
+
+        self.listWidgetPresets.setSortingEnabled(__sortingEnabled)
+
+    #Funcion que cierra la aplicación
     def closeEvent(self):
-
         reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
             "Estas seguro de salir?", QtWidgets.QMessageBox.Yes |
             QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)

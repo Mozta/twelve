@@ -30,7 +30,7 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="page_bienvenida">
      <widget class="QWidget" name="layoutWidget">
@@ -219,7 +219,7 @@
         <x>20</x>
         <y>30</y>
         <width>276</width>
-        <height>471</height>
+        <height>451</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -268,46 +268,14 @@
          </item>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="btnSeleccionarTipo">
+         <property name="text">
+          <string>Seleccionar tipo de prueba</string>
+         </property>
+        </widget>
+       </item>
       </layout>
-     </widget>
-     <widget class="QPushButton" name="btnFicha1">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>120</y>
-        <width>191</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Rojo</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnFicha2">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>220</y>
-        <width>191</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Azul</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnFicha3">
-      <property name="geometry">
-       <rect>
-        <x>330</x>
-        <y>320</y>
-        <width>191</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Verde</string>
-      </property>
      </widget>
      <widget class="QPushButton" name="btnAddPreset">
       <property name="geometry">
@@ -380,6 +348,81 @@
       <property name="text">
        <string>Ejecutar</string>
       </property>
+     </widget>
+     <widget class="QComboBox" name="comboBtnFicha1">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>120</y>
+        <width>191</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Rojo</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Verde</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Azul</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QComboBox" name="comboBtnFicha2">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>220</y>
+        <width>191</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Rojo</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Verde</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Azul</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QComboBox" name="comboBtnFicha3">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>320</y>
+        <width>191</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Rojo</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Verde</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Azul</string>
+       </property>
+      </item>
      </widget>
     </widget>
     <widget class="QWidget" name="page_ejecucion">
@@ -900,6 +943,19 @@
         </item>
        </layout>
       </widget>
+     </widget>
+     <widget class="QPushButton" name="btnSeleccionarEmpresa">
+      <property name="geometry">
+       <rect>
+        <x>610</x>
+        <y>230</y>
+        <width>131</width>
+        <height>36</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Guardar empresa</string>
+      </property>
      </widget>
     </widget>
    </widget>

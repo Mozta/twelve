@@ -1,0 +1,6 @@
+def llenarListaEmpresas(self):
+        for i in range(10):
+            item = QListWidgetItem("Item %i" % i)
+            self.listEmpresas.addItem(item)
+ 
+        listWidget.show()
