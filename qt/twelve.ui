@@ -554,6 +554,19 @@
        <string>Inciar Prueba</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="btnFalso">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>440</y>
+        <width>211</width>
+        <height>36</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Insertar secuencia correcta</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="page_resultados">
      <widget class="QLabel" name="label_14">

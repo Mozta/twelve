@@ -28,6 +28,8 @@ midEmpresa = 1
 #Obtener tipo de prueba seleccionada para los registros de pruebas
 midTipo = 1
 
+mPiezasCorrectas = 0
+mPiezasIncorrectas = 0
 tiempoPrueba = 0
 
 class Ui_MainWindow(object):
@@ -209,6 +211,9 @@ class Ui_MainWindow(object):
         self.btnStart = QtWidgets.QPushButton(self.page_ejecucion)
         self.btnStart.setGeometry(QtCore.QRect(480, 260, 181, 61))
         self.btnStart.setObjectName("btnStart")
+        self.btnFalso = QtWidgets.QPushButton(self.page_ejecucion)
+        self.btnFalso.setGeometry(QtCore.QRect(350, 440, 211, 36))
+        self.btnFalso.setObjectName("btnFalso")
         self.stackedWidget.addWidget(self.page_ejecucion)
         self.page_resultados = QtWidgets.QWidget()
         self.page_resultados.setObjectName("page_resultados")
@@ -404,6 +409,10 @@ class Ui_MainWindow(object):
 
         self.btnRun.clicked.connect(self.mostrarPrueba)
         self.btnStart.clicked.connect(self.ejecutarPrueba)
+        #self.btnFalso.clicked.connect(self.ejecutarPrueba)
+
+        self.btnReinicio.clicked.connect(self.reiniciarPrueba)
+        self.btnFinalizar.clicked.connect(self.finalizarPrueba)
 
 
     def retranslateUi(self, MainWindow):
@@ -439,6 +448,7 @@ class Ui_MainWindow(object):
         self.lblTiempo.setText(_translate("MainWindow", "1:35"))
         self.btnStop.setText(_translate("MainWindow", "STOP"))
         self.btnStart.setText(_translate("MainWindow", "Inciar Prueba"))
+        self.btnFalso.setText(_translate("MainWindow", "Insertar secuencia correcta"))
         self.label_14.setText(_translate("MainWindow", "Prueba finalizada"))
         self.label_15.setText(_translate("MainWindow", "Total de piezas correctas"))
         self.label_16.setText(_translate("MainWindow", "Total de piezas incorrectas"))
@@ -515,14 +525,8 @@ class Ui_MainWindow(object):
         t = str(datetime.timedelta(seconds=tiempoPrueba))
         self.lblTiempo.setText(t[2:])
 
-
-        #Cambiar imagenes de la secuencia
-
-
         #Cambiar contenido de elementos UI al tipo de prueba seleccionado
         self.cambiarFichas(midTipo)
-
-
 
 
     #Funcion para ejecutar prueba
@@ -534,6 +538,9 @@ class Ui_MainWindow(object):
         for segundos in range(tiempoPrueba,-1,-1):
             self.actualizarEtiqueta(segundos)
             time.sleep(1)
+
+        #Cuando el timer llega a 0 se cambia
+        self.pruebaFinalizada()
 
     #Funcion que actualiza el la etiqueta timer
     def actualizarEtiqueta(self,seg):
@@ -557,12 +564,17 @@ class Ui_MainWindow(object):
         else:
             return "images/btnblue.png"
 
-    # Connect button to image updating
-    def fun(self):
-       #print("Test!!!")
-        pic = QtGui.QLabel(self)
-        pic.setGeometry(100, 10, 800, 800)
-        pic.setPixmap(QtGui.QPixmap( "/home/lpp/Desktop/image2.png"))
+    #Funcion cuando finaliza la prueba
+    def pruebaFinalizada(self):
+        self.stackedWidget.setCurrentIndex(4)
+
+    #Funcion para cambiar al panel registro de prueba
+    def reiniciarPrueba(self):
+        self.stackedWidget.setCurrentIndex(3)
+
+    #Funcion para cambiar al panel registro de prueba
+    def finalizarPrueba(self):
+        self.stackedWidget.setCurrentIndex(0)
 
 
     #Funcion para registrar una nueva empresa en la BD
