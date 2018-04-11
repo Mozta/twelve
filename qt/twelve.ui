@@ -30,7 +30,7 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="page_bienvenida">
      <widget class="QWidget" name="layoutWidget">
@@ -539,6 +539,19 @@
       </property>
       <property name="text">
        <string>STOP</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnStart">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>260</y>
+        <width>181</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Inciar Prueba</string>
       </property>
      </widget>
     </widget>

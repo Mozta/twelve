@@ -12,6 +12,8 @@ from PyQt5.QtGui import QIcon
 #My imports
 import petl as etl
 import psycopg2
+import datetime
+import time
 
 # Variables globales
 connection = psycopg2.connect('dbname=twelveBD user=postgres password=admin')
@@ -25,6 +27,8 @@ iTipos = 0
 midEmpresa = 1
 #Obtener tipo de prueba seleccionada para los registros de pruebas
 midTipo = 1
+
+tiempoPrueba = 0
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -202,6 +206,9 @@ class Ui_MainWindow(object):
         self.btnStop = QtWidgets.QPushButton(self.page_ejecucion)
         self.btnStop.setGeometry(QtCore.QRect(610, 440, 92, 36))
         self.btnStop.setObjectName("btnStop")
+        self.btnStart = QtWidgets.QPushButton(self.page_ejecucion)
+        self.btnStart.setGeometry(QtCore.QRect(480, 260, 181, 61))
+        self.btnStart.setObjectName("btnStart")
         self.stackedWidget.addWidget(self.page_ejecucion)
         self.page_resultados = QtWidgets.QWidget()
         self.page_resultados.setObjectName("page_resultados")
@@ -395,6 +402,9 @@ class Ui_MainWindow(object):
         self.btnAddPreset.clicked.connect(self.anadirListaTipos)
         self.btnSeleccionarTipo.clicked.connect(self.seleccionarTipo)
 
+        self.btnRun.clicked.connect(self.mostrarPrueba)
+        self.btnStart.clicked.connect(self.ejecutarPrueba)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -428,6 +438,7 @@ class Ui_MainWindow(object):
         self.btnRun.setText(_translate("MainWindow", "Ejecutar"))
         self.lblTiempo.setText(_translate("MainWindow", "1:35"))
         self.btnStop.setText(_translate("MainWindow", "STOP"))
+        self.btnStart.setText(_translate("MainWindow", "Inciar Prueba"))
         self.label_14.setText(_translate("MainWindow", "Prueba finalizada"))
         self.label_15.setText(_translate("MainWindow", "Total de piezas correctas"))
         self.label_16.setText(_translate("MainWindow", "Total de piezas incorrectas"))
@@ -492,6 +503,45 @@ class Ui_MainWindow(object):
         self.llenarListaTipos()
         #self.comboBoxSexo.text()
         #self.spinBoxEdad.text()
+
+    #Funcion para cambiar al panel registro de prueba
+    def mostrarPrueba(self):
+        global tiempoPrueba
+
+        self.stackedWidget.setCurrentIndex(3)
+
+        tiempoPrueba = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
+
+        t = str(datetime.timedelta(seconds=tiempoPrueba))
+        self.lblTiempo.setText(t[2:])
+
+
+
+
+    #Funcion para ejecutar prueba
+    def ejecutarPrueba(self):
+        global tiempoPrueba
+
+        tiempoPrueba = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
+
+        for segundos in range(tiempoPrueba,-1,-1):
+            #t = str(datetime.timedelta(seconds=segundos))
+            self.actualizarEquiqueta(segundos)
+            time.sleep(1)
+        print ("---")
+        print(segundos)
+
+    def actualizarEquiqueta(self,seg):
+        #some_time = QtCore.QTime(0, 0, 0).addSecs(seg);
+
+        #tiempoPrueba = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
+
+        t = str(datetime.timedelta(seconds=seg))
+        self.lblTiempo.setText(t[2:])
+
+        #self.lblTiempo.setText(str(some_time))
+        self.lblTiempo.repaint()
+        print (seg)
 
     #Funcion para registrar una nueva empresa en la BD
     def anadirListaEmpresas(self):

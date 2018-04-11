@@ -189,6 +189,9 @@ class Ui_MainWindow(object):
         self.btnStop = QtWidgets.QPushButton(self.page_ejecucion)
         self.btnStop.setGeometry(QtCore.QRect(610, 440, 92, 36))
         self.btnStop.setObjectName("btnStop")
+        self.btnStart = QtWidgets.QPushButton(self.page_ejecucion)
+        self.btnStart.setGeometry(QtCore.QRect(480, 260, 181, 61))
+        self.btnStart.setObjectName("btnStart")
         self.stackedWidget.addWidget(self.page_ejecucion)
         self.page_resultados = QtWidgets.QWidget()
         self.page_resultados.setObjectName("page_resultados")
@@ -369,7 +372,7 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.actionSalir)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -415,6 +418,7 @@ class Ui_MainWindow(object):
         self.comboBtnFicha3.setItemText(2, _translate("MainWindow", "Azul"))
         self.lblTiempo.setText(_translate("MainWindow", "1:35"))
         self.btnStop.setText(_translate("MainWindow", "STOP"))
+        self.btnStart.setText(_translate("MainWindow", "Inciar Prueba"))
         self.label_14.setText(_translate("MainWindow", "Prueba finalizada"))
         self.label_15.setText(_translate("MainWindow", "Total de piezas correctas"))
         self.label_16.setText(_translate("MainWindow", "Total de piezas incorrectas"))
