@@ -19,6 +19,7 @@ table_personas = etl.fromdb(connection, 'SELECT * FROM personas')
 
 #indice para recorrrer la lista de empresas
 iEmpresa = 0
+iTipos = 0
 
 #Obtener empresa seleccionada para los registros de pruebas
 midEmpresa = 1
@@ -391,7 +392,9 @@ class Ui_MainWindow(object):
         self.btnGuardarEmpresa.clicked.connect(self.anadirListaEmpresas)
         self.btnSeleccionarEmpresa.clicked.connect(self.seleccionarEmpresa)
 
+        self.btnAddPreset.clicked.connect(self.anadirListaTipos)
         self.btnSeleccionarTipo.clicked.connect(self.seleccionarTipo)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -420,6 +423,7 @@ class Ui_MainWindow(object):
         self.btnSeleccionarTipo.setText(_translate("MainWindow", "Seleccionar tipo de prueba"))
         self.btnAddPreset.setText(_translate("MainWindow", "Añadir preset"))
         self.label_5.setText(_translate("MainWindow", "No. Fichas"))
+        self.timeEdit.setDisplayFormat(_translate("MainWindow", "mm:ss"))
         self.label_6.setText(_translate("MainWindow", "Tiempo"))
         self.btnRun.setText(_translate("MainWindow", "Ejecutar"))
         self.lblTiempo.setText(_translate("MainWindow", "1:35"))
@@ -525,8 +529,26 @@ class Ui_MainWindow(object):
 
         self.spinBox_2.setValue(b[midTipo][2])
         x = b[midTipo][3]
-        some_time = QtCore.QTime(00,x)
+        some_time = QtCore.QTime(0, 0, 0).addSecs(x);
         self.timeEdit.setTime(some_time)
+
+    #Funcion para registrar un nuevo tipo de prueba en la BD
+    def anadirListaTipos(self):
+        global iTipos
+
+        text, okPressed = QtWidgets.QInputDialog.getText(MainWindow, "Guardar preset","Nombre del preset:", QtWidgets.QLineEdit.Normal, "")
+        if okPressed and text != '':
+            print(text)
+        seconds = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
+
+        table1 = [['nombre','nofichas','tiempo','ficha1','ficha2','ficha3'],[text,self.spinBox_2.value(),seconds,self.comboBtnFicha1.currentIndex() +1,self.comboBtnFicha2.currentIndex() +1,self.comboBtnFicha3.currentIndex() +1]]
+        etl.appenddb(table1, connection, 'tipos')
+
+        item = QtWidgets.QListWidgetItem()
+        self.listWidgetPresets.addItem(item)
+
+        item = self.listWidgetPresets.item(iTipos)
+        item.setText(text)
 
     #Funcion para mostrar el panel de configuraciones
     def configuraciones(self):
@@ -561,7 +583,7 @@ class Ui_MainWindow(object):
 
     #Funcion que hace el query para llenar la lista de empresas de la BD
     def llenarListaTipos(self):
-        global iEmpresa
+        global iTipos
 
         #self.listWidgetPresets = QtWidgets.QListWidget(self.frame)
         #self.listWidgetPresets.setObjectName("listWidgetPresets")
@@ -577,11 +599,11 @@ class Ui_MainWindow(object):
         __sortingEnabled = self.listWidgetPresets.isSortingEnabled()
         self.listWidgetPresets.setSortingEnabled(False)
 
-        iEmpresa = 0
+        iTipos = 0
         for tipo in etl.data(tipos):
-            item = self.listWidgetPresets.item(iEmpresa)
+            item = self.listWidgetPresets.item(iTipos)
             item.setText(tipo[1])
-            iEmpresa += 1
+            iTipos += 1
 
         self.listWidgetPresets.setSortingEnabled(__sortingEnabled)
 
