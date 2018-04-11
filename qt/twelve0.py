@@ -516,6 +516,13 @@ class Ui_MainWindow(object):
         self.lblTiempo.setText(t[2:])
 
 
+        #Cambiar imagenes de la secuencia
+
+
+        #Cambiar contenido de elementos UI al tipo de prueba seleccionado
+        self.cambiarFichas(midTipo)
+
+
 
 
     #Funcion para ejecutar prueba
@@ -525,23 +532,38 @@ class Ui_MainWindow(object):
         tiempoPrueba = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
 
         for segundos in range(tiempoPrueba,-1,-1):
-            #t = str(datetime.timedelta(seconds=segundos))
-            self.actualizarEquiqueta(segundos)
+            self.actualizarEtiqueta(segundos)
             time.sleep(1)
-        print ("---")
-        print(segundos)
 
-    def actualizarEquiqueta(self,seg):
-        #some_time = QtCore.QTime(0, 0, 0).addSecs(seg);
-
-        #tiempoPrueba = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
-
+    #Funcion que actualiza el la etiqueta timer
+    def actualizarEtiqueta(self,seg):
         t = str(datetime.timedelta(seconds=seg))
         self.lblTiempo.setText(t[2:])
-
-        #self.lblTiempo.setText(str(some_time))
         self.lblTiempo.repaint()
-        print (seg)
+
+    def cambiarFichas(self,tipo):
+        tipos = etl.fromdb(connection, 'SELECT * FROM tipos')
+        b = tipos.data()
+
+        self.imgFicha1.setPixmap(QtGui.QPixmap(self.ponerImagenFicha(b[midTipo][4])))
+        self.imgFicha2.setPixmap(QtGui.QPixmap(self.ponerImagenFicha(b[midTipo][5])))
+        self.imgFicha3.setPixmap(QtGui.QPixmap(self.ponerImagenFicha(b[midTipo][6])))
+
+    def ponerImagenFicha(self,img):
+        if img == 1:
+            return "images/btnred.png"
+        elif img == 2:
+            return "images/btngreen.png"
+        else:
+            return "images/btnblue.png"
+
+    # Connect button to image updating
+    def fun(self):
+       #print("Test!!!")
+        pic = QtGui.QLabel(self)
+        pic.setGeometry(100, 10, 800, 800)
+        pic.setPixmap(QtGui.QPixmap( "/home/lpp/Desktop/image2.png"))
+
 
     #Funcion para registrar una nueva empresa en la BD
     def anadirListaEmpresas(self):
