@@ -14,6 +14,10 @@ import petl as etl
 import psycopg2
 import datetime
 import time
+import _thread
+
+# Indica si ha terminado el hilo
+hilo_terminado = False
 
 # Variables globales
 connection = psycopg2.connect('dbname=twelveBD user=postgres password=admin')
@@ -31,7 +35,6 @@ midTipo = 1
 mPiezasCorrectas = 0
 mPiezasIncorrectas = 0
 tiempoPrueba = 0
-tiempoTerminado = False
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -411,11 +414,9 @@ class Ui_MainWindow(object):
         self.btnRun.clicked.connect(self.mostrarPrueba)
         self.btnStart.clicked.connect(self.ejecutarPrueba)
         self.btnFalso.clicked.connect(self.simularFicha)
-        self.btnStop.clicked.connect(self.detenerPrueba)
 
         self.btnReinicio.clicked.connect(self.reiniciarPrueba)
         self.btnFinalizar.clicked.connect(self.finalizarPrueba)
-
 
 
     def retranslateUi(self, MainWindow):
@@ -531,53 +532,35 @@ class Ui_MainWindow(object):
         #Cambiar contenido de elementos UI al tipo de prueba seleccionado
         self.cambiarFichas(midTipo)
 
+
     #Funcion para ejecutar prueba
     def ejecutarPrueba(self):
         global tiempoPrueba
 
-        #Seteo de elementos UI
-        self.lblTiempo.setStyleSheet("color: rgb(0,0,0)")
-        self.btnStop.setEnabled(True)
-        self.btnStart.setEnabled(False)
-
-        #Se establece la variable tiempoPrueba al tiempo de la prueba seleccionado de forma global
         tiempoPrueba = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
 
-        #------ BEGIN: Hilo para el contador ------------
-        self.threadclass = ThreadClass()
-        self.threadclass.start()
-        self.threadclass.holi.connect(self.actualizarEtiquetaThread)
-        #------ END: Hilo para el contador ------------
+        #self.actualizarEtiqueta(tiempoPrueba)
+        _thread.start_new_thread(self.actualizarEtiqueta,(tiempoPrueba,0))
+        for i in range(1,10):
+            print ("Principal : "+str(i))
+            time.sleep(0.5)
 
-    #Funcion de paro de emergencia
-    def detenerPrueba(self):
-        self.threadclass.terminate()
-        #Seteo de elementos UI
-        self.lblTiempo.setStyleSheet("color: rgb(255,0,0)")
-        self.btnStop.setEnabled(False)
-        self.btnStart.setEnabled(True)
-
-    #Funcion en hilo que cambia la UI del contador y verifica cuando finaliza
-    def actualizarEtiquetaThread(self,val):
-        #Parseo de int a segundos en time
-        t = str(datetime.timedelta(seconds=val))
-        self.lblTiempo.setText(t[2:])
-        self.lblTiempo.repaint()
-        #Si el contador llega a 0 finaliza y cambia de panel
-        if val == 0:
-            time.sleep(1)
-            self.stackedWidget.setCurrentIndex(4)
+        #Cuando el timer llega a 0 se cambia
+        self.pruebaFinalizada()
 
     #Funcion que actualiza el la etiqueta timer
-    def actualizarEtiqueta(self,tiempoPrueba):
+    def actualizarEtiqueta(self,tiempoPrueba,requerido):
+        global hilo_terminado
         print("Dentro")
         for segundos in range(tiempoPrueba,-1,-1):
             t = str(datetime.timedelta(seconds=segundos))
             self.lblTiempo.setText(t[2:])
             self.lblTiempo.repaint()
             time.sleep(1)
+        # marca hilo terminado
+        hilo_terminado = True
+        print ("Terminado hilo ")
 
-    #Funcion que cambia la UI de las fichas dependiendo de la prueba seleccionada
     def cambiarFichas(self,tipo):
         tipos = etl.fromdb(connection, 'SELECT * FROM tipos')
         b = tipos.data()
@@ -586,7 +569,6 @@ class Ui_MainWindow(object):
         self.imgFicha2.setPixmap(QtGui.QPixmap(self.ponerImagenFicha(b[midTipo][5])))
         self.imgFicha3.setPixmap(QtGui.QPixmap(self.ponerImagenFicha(b[midTipo][6])))
 
-    #Funcion que devuelve la imagen de la ficha
     def ponerImagenFicha(self,img):
         if img == 1:
             return "images/btnred.png"
@@ -597,14 +579,11 @@ class Ui_MainWindow(object):
 
     #Funcion cuando finaliza la prueba
     def pruebaFinalizada(self):
-        global tiempoTerminado
+        # Espera a que termine el hilo
+        while (not hilo_terminado):
+            pass
+        self.stackedWidget.setCurrentIndex(4)
 
-        while tiempoTerminado:
-            self.stackedWidget.setCurrentIndex(4)
-        print ("Debo cambiar")
-
-    #TODO: Este metodo debe ser cambiado por lo que me mande Oliver desde Hardware
-    #Funcion para simular una secuencia de fichas correcta
     def simularFicha(self):
         global mPiezasCorrectas
         mPiezasCorrectas += 1
@@ -640,7 +619,6 @@ class Ui_MainWindow(object):
         print (midEmpresa)
         self.stackedWidget.setCurrentIndex(0)
 
-    #Funcion que cambia los elementos de la UI dependiendo de la prueba seleccionada en la lista
     def seleccionarTipo(self):
         global midTipo
         a = self.listWidgetPresets.selectedIndexes()[0]
@@ -712,11 +690,16 @@ class Ui_MainWindow(object):
     def llenarListaTipos(self):
         global iTipos
 
+        #self.listWidgetPresets = QtWidgets.QListWidget(self.frame)
+        #self.listWidgetPresets.setObjectName("listWidgetPresets")
+
         tipos = etl.fromdb(connection, 'SELECT * FROM tipos')
 
         for tipo in etl.data(tipos):
             item = QtWidgets.QListWidgetItem()
             self.listWidgetPresets.addItem(item)
+
+        #self.horizontalLayout_3.addWidget(self.listWidgetPresets)
 
         __sortingEnabled = self.listWidgetPresets.isSortingEnabled()
         self.listWidgetPresets.setSortingEnabled(False)
@@ -737,23 +720,6 @@ class Ui_MainWindow(object):
 
         if reply == QtWidgets.QMessageBox.Yes:
             MainWindow.close()
-
-
-class ThreadClass(QtCore.QThread):
-    holi = QtCore.pyqtSignal(int)
-
-    def __init__(self, parent = None):
-        super(ThreadClass, self).__init__(parent)
-
-    def run(self):
-        global tiempoPrueba
-        global tiempoTerminado
-        for segundos in range(tiempoPrueba,-1,-1):
-            print ("Conteo: " + str(segundos))
-            self.holi.emit(segundos)
-            self.sleep(1)
-
-        tiempoTerminado = True
 
 
 if __name__ == "__main__":
