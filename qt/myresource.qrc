@@ -1,0 +1,19 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>ASSETS/button-background.png</file>
+    <file>ASSETS/blue.jpg</file>
+    <file>ASSETS/confi.jpg</file>
+    <file>ASSETS/fondo.jpg</file>
+    <file>ASSETS/fondo_home.jpg</file>
+    <file>ASSETS/green.jpg</file>
+    <file>ASSETS/historial.jpg</file>
+    <file>ASSETS/historial_icn.jpg</file>
+    <file>ASSETS/home.jpg</file>
+    <file>ASSETS/logo_icono.png</file>
+    <file>ASSETS/logo.png</file>
+    <file>ASSETS/prueba.jpg</file>
+    <file>ASSETS/prueba_icn.jpg</file>
+    <file>ASSETS/red.jpg</file>
+    <file>ASSETS/salir.jpg</file>
+</qresource>
+</RCC>

@@ -1,0 +1,27 @@
+#centralwidget
+{
+	background: rgba(32, 80, 96, 100);
+}
+
+QPushButton
+{
+  color: white;
+  border: 0px;
+  padding: 0 8px;
+  border-radius: 18px;
+  background: #243046;
+}
+
+QPushButton#pushButton_2
+{
+  border: 1px solid red;
+  border-radius: 10px;
+}
+
+QPushButton#pushButton_3
+{
+  border: 2px solid gray;
+  border-radius: 10px;
+  padding: 0 8px;
+  background: yellow;
+}
