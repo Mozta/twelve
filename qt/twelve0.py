@@ -14,6 +14,7 @@ import petl as etl
 import psycopg2
 import datetime
 import time
+from datetime import date
 
 # Variables globales
 connection = psycopg2.connect('dbname=twelveBD user=postgres password=admin')
@@ -27,6 +28,7 @@ iTipos = 0
 midEmpresa = 1
 #Obtener tipo de prueba seleccionada para los registros de pruebas
 midTipo = 1
+midPersona = 1
 
 noFichas = 0
 mPiezasCorrectas = 0
@@ -786,20 +788,26 @@ class Ui_MainWindow(object):
 
     #Funcion para añadir el registro de una nueva prueba (datos de la persona)
     def registrarPersona(self):
+        global midPersona
+
         self.stackedWidget.setCurrentIndex(2)
         #print (self.txtNombre.toPlainText())
         #print (self.comboBoxSexo.currentText())
         #print (self.spinBoxEdad.value())
 
         #--------- BEGIN Registrar persona ------------
-        #if self.comboBoxSexo.currentText() == 'Masculino' :
-        #    sexo = 'm'
-        #else :
-        #    sexo = 'f'
+        if self.comboBoxSexo.currentText() == 'Masculino' :
+           sexo = 'm'
+        else :
+           sexo = 'f'
 
-        #table1 = [['nombre','sexo','edad'],[self.txtNombre.toPlainText(),sexo,self.spinBoxEdad.value()]]
-        #etl.appenddb(table1, connection, 'personas')
+        table1 = [['nombre','sexo','edad'],[self.txtNombre.toPlainText(),sexo,self.spinBoxEdad.value()]]
+        etl.appenddb(table1, connection, 'personas')
         #--------- END Registrar persona ------------
+
+        #Obtener datos para previo registro de la prueba que se ejecute
+        midPersona = etl.fromdb(connection, "SELECT idpersona FROM personas WHERE nombre='" + self.txtNombre.toPlainText() + "'")
+        midPersona = midPersona[1][0]
 
         self.llenarListaTipos()
         #self.comboBoxSexo.text()
@@ -821,6 +829,8 @@ class Ui_MainWindow(object):
 
         #Ocultar boton de stop
         self.btnStop.hide()
+
+        self.btnStart.setEnabled(True)
 
     #Funcion para ejecutar prueba
     def ejecutarPrueba(self):
@@ -912,12 +922,45 @@ class Ui_MainWindow(object):
 
     #Funcion para cambiar al panel registro de prueba
     def reiniciarPrueba(self):
+        global mPiezasCorrectas
+        global mPiezasIncorrectas
+
+        self.guardarPrueba()
+
+        mPiezasCorrectas = 0
+        mPiezasIncorrectas = 0
+        self.ejecutarPrueba()
         self.stackedWidget.setCurrentIndex(3)
 
     #Funcion para cambiar al panel registro de prueba
     def finalizarPrueba(self):
+        global mPiezasCorrectas
+
+        self.guardarPrueba()
+
+        mPiezasCorrectas = 0
+        mPiezasIncorrectas = 0
         self.stackedWidget.setCurrentIndex(0)
 
+    #Funcion para guardar los resultados de la prueba ejecutada
+    def guardarPrueba(self):
+        global midEmpresa
+        global mPiezasCorrectas
+        global noFichas
+        global midPersona
+
+        today = date.today()
+        mPiezasIncorrectas = noFichas-mPiezasCorrectas
+
+        if (mPiezasIncorrectas == 0):
+            aprobado = True
+        else:
+            aprobado = False
+
+        #--------- BEGIN Registrar persona ------------
+        tablePrueba = [['idempresa','idpersona','idtipos', 'fecha', 'noaciertos', 'nofallas', 'aprobado'],[midEmpresa, midPersona, midTipo, today, mPiezasCorrectas, mPiezasIncorrectas, aprobado]]
+        etl.appenddb(tablePrueba, connection, 'pruebas')
+        #--------- END Registrar persona ------------
 
     #Funcion para registrar una nueva empresa en la BD
     def anadirListaEmpresas(self):
