@@ -1051,27 +1051,29 @@ class Ui_MainWindow(object):
     #Funcion para eliminar el registro seleccionado
     def borarRegistro(self):
         a = self.tableWidgetHistorial.selectedIndexes()[0]
-        print(a)
-        registro = a.row() + 1
-        print (registro)
         cell = self.tableWidgetHistorial.item(a.row(),0).text()
         print (cell)
 
-        #Metodo para borrar un registro
-        cur = connection.cursor()
-        cur.execute("DELETE FROM pruebas WHERE idprueba='" + cell + "';")
-        connection.commit()
-        cur.close()
+        reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
+            "Estas seguro de borrar el registro: "+cell+"?", QtWidgets.QMessageBox.Yes |
+            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
 
-        #Volvemos a consultar los datos
-        pruebas = etl.fromdb(connection, "SELECT * FROM pruebas")
-        #Reseteamos el widget
-        self.tableWidgetHistorial.setRowCount(0)
-        #Rellenamos el widget con los datos de la nueva consulta
-        for row_number, row_data in enumerate(pruebas.data()):
-            self.tableWidgetHistorial.insertRow(row_number)
-            for colum_number, data in enumerate(row_data):
-                self.tableWidgetHistorial.setItem(row_number, colum_number, QtWidgets.QTableWidgetItem(str(data)))
+        if reply == QtWidgets.QMessageBox.Yes:
+            #Metodo para borrar un registro
+            cur = connection.cursor()
+            cur.execute("DELETE FROM pruebas WHERE idprueba='" + cell + "';")
+            connection.commit()
+            cur.close()
+
+            #Volvemos a consultar los datos
+            pruebas = etl.fromdb(connection, "SELECT * FROM pruebas")
+            #Reseteamos el widget
+            self.tableWidgetHistorial.setRowCount(0)
+            #Rellenamos el widget con los datos de la nueva consulta
+            for row_number, row_data in enumerate(pruebas.data()):
+                self.tableWidgetHistorial.insertRow(row_number)
+                for colum_number, data in enumerate(row_data):
+                    self.tableWidgetHistorial.setItem(row_number, colum_number, QtWidgets.QTableWidgetItem(str(data)))
 
 
     #Funcion que cambia los elementos de la UI dependiendo de la prueba seleccionada en la lista
@@ -1176,6 +1178,7 @@ class Ui_MainWindow(object):
             QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
 
         if reply == QtWidgets.QMessageBox.Yes:
+            connection.close()
             MainWindow.close()
 
 
