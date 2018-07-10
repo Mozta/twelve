@@ -7,34 +7,6 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QIcon
-
-#My imports
-import petl as etl
-import psycopg2
-import datetime
-import time
-from datetime import date
-
-# Variables globales
-connection = psycopg2.connect('dbname=twelveBD user=postgres password=admin')
-table_personas = etl.fromdb(connection, 'SELECT * FROM personas')
-
-#indice para recorrrer la lista de empresas
-iEmpresa = 0
-iTipos = 0
-
-#Obtener empresa seleccionada para los registros de pruebas
-midEmpresa = 1
-#Obtener tipo de prueba seleccionada para los registros de pruebas
-midTipo = 1
-midPersona = 1
-
-noFichas = 0
-mPiezasCorrectas = 0
-mPiezasIncorrectas = 0
-tiempoPrueba = 0
-tiempoTerminado = False
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -199,7 +171,6 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_registro)
         self.page_seleccion = QtWidgets.QWidget()
         self.page_seleccion.setObjectName("page_seleccion")
-
         self.btnAddPreset = QtWidgets.QPushButton(self.page_seleccion)
         self.btnAddPreset.setGeometry(QtCore.QRect(570, 600, 200, 41))
         font = QtGui.QFont()
@@ -474,35 +445,6 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_resultados)
         self.page_historial = QtWidgets.QWidget()
         self.page_historial.setObjectName("page_historial")
-        # self.scrollArea = QtWidgets.QScrollArea(self.page_historial)
-        # self.scrollArea.setGeometry(QtCore.QRect(80, 60, 211, 211))
-        # self.scrollArea.setWidgetResizable(True)
-        # self.scrollArea.setObjectName("scrollArea")
-        # self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        # self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 207, 207))
-        # self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        # self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
-        # self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        # self.listWidgetHistorial = QtWidgets.QListWidget(self.scrollAreaWidgetContents)
-        # font = QtGui.QFont()
-        # font.setFamily("Exo")
-        # font.setPointSize(14)
-        # self.listWidgetHistorial.setFont(font)
-        # self.listWidgetHistorial.setObjectName("listWidgetHistorial")
-        # item = QtWidgets.QListWidgetItem()
-        # self.listWidgetHistorial.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listWidgetHistorial.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listWidgetHistorial.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listWidgetHistorial.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listWidgetHistorial.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listWidgetHistorial.addItem(item)
-        # self.horizontalLayout_2.addWidget(self.listWidgetHistorial)
-        # self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.btnDelete = QtWidgets.QToolButton(self.page_historial)
         self.btnDelete.setGeometry(QtCore.QRect(1090, 560, 36, 36))
         self.btnDelete.setText("")
@@ -616,25 +558,25 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        # self.listEmpresas = QtWidgets.QListWidget(self.scrollAreaWidgetContents_2)
-        # font = QtGui.QFont()
-        # font.setFamily("Exo")
-        # font.setPointSize(14)
-        # self.listEmpresas.setFont(font)
-        # self.listEmpresas.setObjectName("listEmpresas")
-        # item = QtWidgets.QListWidgetItem()
-        # self.listEmpresas.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listEmpresas.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listEmpresas.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listEmpresas.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listEmpresas.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listEmpresas.addItem(item)
-        # self.horizontalLayout_3.addWidget(self.listEmpresas)
+        self.listEmpresas = QtWidgets.QListWidget(self.scrollAreaWidgetContents_2)
+        font = QtGui.QFont()
+        font.setFamily("Exo")
+        font.setPointSize(14)
+        self.listEmpresas.setFont(font)
+        self.listEmpresas.setObjectName("listEmpresas")
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        self.horizontalLayout_3.addWidget(self.listEmpresas)
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
         self.btnSeleccionarEmpresa = QtWidgets.QPushButton(self.page_empresas)
         self.btnSeleccionarEmpresa.setGeometry(QtCore.QRect(980, 320, 231, 41))
@@ -665,9 +607,6 @@ class Ui_MainWindow(object):
         font.setFamily("Exo")
         self.actionInicio.setFont(font)
         self.actionInicio.setObjectName("actionInicio")
-        self.actionInicio.setStatusTip('Regresar a inicio')
-        self.actionInicio.triggered.connect(self.menu_inicio)
-
         self.actionConfiguraci_n = QtWidgets.QAction(MainWindow)
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap("images/conf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -676,9 +615,6 @@ class Ui_MainWindow(object):
         font.setFamily("Exo")
         self.actionConfiguraci_n.setFont(font)
         self.actionConfiguraci_n.setObjectName("actionConfiguraci_n")
-        self.actionConfiguraci_n.setStatusTip('Configuraciones')
-        self.actionConfiguraci_n.triggered.connect(self.configuraciones)
-
         self.actionSalir = QtWidgets.QAction(MainWindow)
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap("images/exit24.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -687,9 +623,6 @@ class Ui_MainWindow(object):
         font.setFamily("Exo")
         self.actionSalir.setFont(font)
         self.actionSalir.setObjectName("actionSalir")
-        self.actionSalir.setStatusTip('Salir de la aplicación')
-        self.actionSalir.triggered.connect(self.closeEvent)
-
         self.toolBar.addAction(self.actionInicio)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionConfiguraci_n)
@@ -699,27 +632,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-        #Mio
-        self.btnPrueba.clicked.connect(self.prueba)
-        self.btnHistorial.clicked.connect(self.historial)
-        self.btnRegistrar.clicked.connect(self.registrarPersona)
-
-        self.btnGuardarEmpresa.clicked.connect(self.anadirListaEmpresas)
-        self.btnSeleccionarEmpresa.clicked.connect(self.seleccionarEmpresa)
-
-        self.btnAddPreset.clicked.connect(self.anadirListaTipos)
-        self.btnSeleccionarTipo.clicked.connect(self.seleccionarTipo)
-
-        self.btnRun.clicked.connect(self.mostrarPrueba)
-        self.btnStart.clicked.connect(self.ejecutarPrueba)
-        self.btnFalso.clicked.connect(self.simularFicha)
-        self.btnStop.clicked.connect(self.detenerPrueba)
-
-        self.btnReinicio.clicked.connect(self.reiniciarPrueba)
-        self.btnFinalizar.clicked.connect(self.finalizarPrueba)
-
-        self.btnDelete.clicked.connect(self.borarRegistro)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -752,7 +664,16 @@ class Ui_MainWindow(object):
         self.btnSeleccionarTipo.setText(_translate("MainWindow", "Seleccionar prueba"))
         __sortingEnabled = self.listWidgetPresets.isSortingEnabled()
         self.listWidgetPresets.setSortingEnabled(False)
-
+        item = self.listWidgetPresets.item(0)
+        item.setText(_translate("MainWindow", "Fácil"))
+        item = self.listWidgetPresets.item(1)
+        item.setText(_translate("MainWindow", "Intermedio"))
+        item = self.listWidgetPresets.item(2)
+        item.setText(_translate("MainWindow", "Dificil"))
+        item = self.listWidgetPresets.item(3)
+        item.setText(_translate("MainWindow", "Veterano"))
+        item = self.listWidgetPresets.item(4)
+        item.setText(_translate("MainWindow", "Dios"))
         self.listWidgetPresets.setSortingEnabled(__sortingEnabled)
         self.label_10.setText(_translate("MainWindow", "Tipo de Pruebas"))
         self.btnStop.setText(_translate("MainWindow", "STOP"))
@@ -768,55 +689,39 @@ class Ui_MainWindow(object):
         item = self.tableWidgetHistorial.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "idPrueba"))
         item = self.tableWidgetHistorial.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "idEmpresa"))
+        item.setText(_translate("MainWindow", "New Column"))
         item = self.tableWidgetHistorial.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "idPersona"))
+        item.setText(_translate("MainWindow", "idEmpresa"))
         item = self.tableWidgetHistorial.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "idTipo"))
+        item.setText(_translate("MainWindow", "idPersona"))
         item = self.tableWidgetHistorial.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "Fecha"))
+        item.setText(_translate("MainWindow", "idTipo"))
         item = self.tableWidgetHistorial.horizontalHeaderItem(5)
-        item.setText(_translate("MainWindow", "no.Aciertos"))
+        item.setText(_translate("MainWindow", "Fecha"))
         item = self.tableWidgetHistorial.horizontalHeaderItem(6)
-        item.setText(_translate("MainWindow", "no.Fallas"))
+        item.setText(_translate("MainWindow", "no.Aciertos"))
         item = self.tableWidgetHistorial.horizontalHeaderItem(7)
         item.setText(_translate("MainWindow", "aprobado"))
-
-        #__sortingEnabled = self.listWidgetHistorial.isSortingEnabled()
-        #self.listWidgetHistorial.setSortingEnabled(False)
-        # item = self.listWidgetHistorial.item(0)
-        # item.setText(_translate("MainWindow", "Prueba 1"))
-        # item = self.listWidgetHistorial.item(1)
-        # item.setText(_translate("MainWindow", "Prueba 2"))
-        # item = self.listWidgetHistorial.item(2)
-        # item.setText(_translate("MainWindow", "Prueba 3"))
-        # item = self.listWidgetHistorial.item(3)
-        # item.setText(_translate("MainWindow", "Prueba 4"))
-        # item = self.listWidgetHistorial.item(4)
-        # item.setText(_translate("MainWindow", "Prueba 5"))
-        # item = self.listWidgetHistorial.item(5)
-        # item.setText(_translate("MainWindow", "New Item"))
-        # self.listWidgetHistorial.setSortingEnabled(__sortingEnabled)
         self.label_7.setText(_translate("MainWindow", "Nombre de la empresa"))
         self.btnRegistrar_2.setText(_translate("MainWindow", "Siguiente"))
         self.label_8.setText(_translate("MainWindow", "Dirección"))
         self.label_9.setText(_translate("MainWindow", "Surcursal"))
         self.btnGuardarEmpresa.setText(_translate("MainWindow", "Guardar empresa"))
-        # __sortingEnabled = self.listEmpresas.isSortingEnabled()
-        # self.listEmpresas.setSortingEnabled(False)
-        # item = self.listEmpresas.item(0)
-        # item.setText(_translate("MainWindow", "Prueba 1"))
-        # item = self.listEmpresas.item(1)
-        # item.setText(_translate("MainWindow", "Prueba 2"))
-        # item = self.listEmpresas.item(2)
-        # item.setText(_translate("MainWindow", "Prueba 3"))
-        # item = self.listEmpresas.item(3)
-        # item.setText(_translate("MainWindow", "Prueba 4"))
-        # item = self.listEmpresas.item(4)
-        # item.setText(_translate("MainWindow", "Prueba 5"))
-        # item = self.listEmpresas.item(5)
-        # item.setText(_translate("MainWindow", "New Item"))
-        # self.listEmpresas.setSortingEnabled(__sortingEnabled)
+        __sortingEnabled = self.listEmpresas.isSortingEnabled()
+        self.listEmpresas.setSortingEnabled(False)
+        item = self.listEmpresas.item(0)
+        item.setText(_translate("MainWindow", "Prueba 1"))
+        item = self.listEmpresas.item(1)
+        item.setText(_translate("MainWindow", "Prueba 2"))
+        item = self.listEmpresas.item(2)
+        item.setText(_translate("MainWindow", "Prueba 3"))
+        item = self.listEmpresas.item(3)
+        item.setText(_translate("MainWindow", "Prueba 4"))
+        item = self.listEmpresas.item(4)
+        item.setText(_translate("MainWindow", "Prueba 5"))
+        item = self.listEmpresas.item(5)
+        item.setText(_translate("MainWindow", "New Item"))
+        self.listEmpresas.setSortingEnabled(__sortingEnabled)
         self.btnSeleccionarEmpresa.setText(_translate("MainWindow", "Seleccionar empresa"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.actionInicio.setText(_translate("MainWindow", "Inicio"))
@@ -826,374 +731,6 @@ class Ui_MainWindow(object):
         self.actionSalir.setText(_translate("MainWindow", "Salir"))
         self.actionSalir.setToolTip(_translate("MainWindow", "Salir de la aplicación"))
         self.actionSalir.setShortcut(_translate("MainWindow", "Ctrl+Q"))
-
-    #Funcion para cambiar al panel inicio
-    def menu_inicio(self):
-        self.stackedWidget.setCurrentIndex(0)
-
-    #Funcion para cambiar al panel registro de prueba
-    def prueba(self):
-        self.stackedWidget.setCurrentIndex(1)
-
-    #Funcion para cambiar al panel registro de prueba
-    def historial(self):
-        self.stackedWidget.setCurrentIndex(5)
-        pruebas = etl.fromdb(connection, 'SELECT * FROM pruebas')
-
-        self.tableWidgetHistorial.setRowCount(0)
-
-        for row_number, row_data in enumerate(pruebas.data()):
-            self.tableWidgetHistorial.insertRow(row_number)
-            for colum_number, data in enumerate(row_data):
-                self.tableWidgetHistorial.setItem(row_number, colum_number, QtWidgets.QTableWidgetItem(str(data)))
-
-
-    #Funcion para añadir el registro de una nueva prueba (datos de la persona)
-    def registrarPersona(self):
-        global midPersona
-
-        self.stackedWidget.setCurrentIndex(2)
-        #print (self.txtNombre.toPlainText())
-        #print (self.comboBoxSexo.currentText())
-        #print (self.spinBoxEdad.value())
-
-        #--------- BEGIN Registrar persona ------------
-        if self.comboBoxSexo.currentText() == 'Masculino' :
-           sexo = 'm'
-        else :
-           sexo = 'f'
-
-        table1 = [['nombre','sexo','edad'],[self.txtNombre.toPlainText(),sexo,self.spinBoxEdad.value()]]
-        etl.appenddb(table1, connection, 'personas')
-        #--------- END Registrar persona ------------
-
-        #Obtener datos para previo registro de la prueba que se ejecute
-        midPersona = etl.fromdb(connection, "SELECT idpersona FROM personas WHERE nombre='" + self.txtNombre.toPlainText() + "'")
-        midPersona = midPersona[1][0]
-
-        self.llenarListaTipos()
-        self.txtNombre.clear()
-        self.spinBoxEdad.clear()
-        #self.comboBoxSexo.text()
-        #self.spinBoxEdad.text()
-
-    #Funcion para cambiar al panel registro de prueba
-    def mostrarPrueba(self):
-        global tiempoPrueba
-
-        self.stackedWidget.setCurrentIndex(3)
-
-        tiempoPrueba = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
-
-        t = str(datetime.timedelta(seconds=tiempoPrueba))
-        self.lblTiempo.setText(t[2:])
-
-        #Cambiar contenido de elementos UI al tipo de prueba seleccionado
-        self.cambiarFichas(midTipo)
-
-        #Ocultar boton de stop
-        self.btnStop.hide()
-
-        self.btnStart.setEnabled(True)
-
-    #Funcion para ejecutar prueba
-    def ejecutarPrueba(self):
-        global tiempoPrueba
-
-        #Seteo de elementos UI
-        self.lblTiempo.setStyleSheet("color: rgb(0,0,0)")
-        self.btnStop.setEnabled(True)
-        self.btnStart.setEnabled(False)
-
-        #Se establece la variable tiempoPrueba al tiempo de la prueba seleccionado de forma global
-        tiempoPrueba = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
-
-        #Ocultar boton de stop
-        self.btnStop.show()
-
-        #------ BEGIN: Hilo para el contador ------------
-        self.threadclass = ThreadClass()
-        self.threadclass.start()
-        self.threadclass.holi.connect(self.actualizarEtiquetaThread)
-        #------ END: Hilo para el contador ------------
-
-    #Funcion de paro de emergencia
-    def detenerPrueba(self):
-        self.threadclass.terminate()
-        #Seteo de elementos UI
-        self.lblTiempo.setStyleSheet("color: rgb(255,0,0)")
-        self.btnStop.setEnabled(False)
-        self.btnStart.setEnabled(True)
-        self.btnStart.setText("Reiniciar prueba")
-
-    #Funcion en hilo que cambia la UI del contador y verifica cuando finaliza
-    def actualizarEtiquetaThread(self,val):
-        global mPiezasCorrectas
-        global noFichas
-
-        #Parseo de int a segundos en time
-        t = str(datetime.timedelta(seconds=val))
-        self.lblTiempo.setText(t[2:])
-        self.lblTiempo.repaint()
-        #Si el contador llega a 0 finaliza y cambia de panel
-        if val == 0:
-            time.sleep(1)
-            self.stackedWidget.setCurrentIndex(4)
-            self.lcdNumberWin.setProperty("intValue", mPiezasCorrectas)
-            self.lcdNumberFail.setProperty("intValue", noFichas - mPiezasCorrectas)
-
-    #Funcion que actualiza el la etiqueta timer
-    def actualizarEtiqueta(self,tiempoPrueba):
-        print("Dentro")
-        for segundos in range(tiempoPrueba,-1,-1):
-            t = str(datetime.timedelta(seconds=segundos))
-            self.lblTiempo.setText(t[2:])
-            self.lblTiempo.repaint()
-            time.sleep(1)
-
-    #Funcion que cambia la UI de las fichas dependiendo de la prueba seleccionada
-    def cambiarFichas(self,tipo):
-        tipos = etl.fromdb(connection, 'SELECT * FROM tipos')
-        b = tipos.data()
-
-        self.imgFicha1.setPixmap(QtGui.QPixmap(self.ponerImagenFicha(b[midTipo][4])))
-        self.imgFicha2.setPixmap(QtGui.QPixmap(self.ponerImagenFicha(b[midTipo][5])))
-        self.imgFicha3.setPixmap(QtGui.QPixmap(self.ponerImagenFicha(b[midTipo][6])))
-
-    #Funcion que devuelve la imagen de la ficha
-    def ponerImagenFicha(self,img):
-        if img == 1:
-            return "images/btnred.png"
-        elif img == 2:
-            return "images/btngreen.png"
-        else:
-            return "images/btnblue.png"
-
-    #Funcion cuando finaliza la prueba
-    def pruebaFinalizada(self):
-        global tiempoTerminado
-
-        while tiempoTerminado:
-            self.stackedWidget.setCurrentIndex(4)
-        print ("Debo cambiar")
-
-    #TODO: Este metodo debe ser cambiado por lo que me mande Oliver desde Hardware
-    #Funcion para simular una secuencia de fichas correcta
-    def simularFicha(self):
-        global mPiezasCorrectas
-        mPiezasCorrectas += 1
-        print("Ficha simulada correcta: " + str(mPiezasCorrectas))
-
-    #Funcion para cambiar al panel registro de prueba
-    def reiniciarPrueba(self):
-        global mPiezasCorrectas
-        global mPiezasIncorrectas
-
-        self.guardarPrueba()
-
-        mPiezasCorrectas = 0
-        mPiezasIncorrectas = 0
-        self.ejecutarPrueba()
-        self.stackedWidget.setCurrentIndex(3)
-
-    #Funcion para cambiar al panel registro de prueba
-    def finalizarPrueba(self):
-        global mPiezasCorrectas
-
-        self.guardarPrueba()
-
-        mPiezasCorrectas = 0
-        mPiezasIncorrectas = 0
-        self.stackedWidget.setCurrentIndex(0)
-
-    #Funcion para guardar los resultados de la prueba ejecutada
-    def guardarPrueba(self):
-        global midEmpresa
-        global mPiezasCorrectas
-        global noFichas
-        global midPersona
-        global midTipo
-
-        today = date.today()
-        mPiezasIncorrectas = noFichas-mPiezasCorrectas
-
-        if (mPiezasIncorrectas == 0):
-            aprobado = True
-        else:
-            aprobado = False
-
-        #--------- BEGIN Registrar persona ------------
-        tablePrueba = [['idempresa','idpersona','idtipos', 'fecha', 'noaciertos', 'nofallas', 'aprobado'],[midEmpresa, midPersona, midTipo, today, mPiezasCorrectas, mPiezasIncorrectas, aprobado]]
-        etl.appenddb(tablePrueba, connection, 'pruebas')
-        #--------- END Registrar persona ------------
-
-    #Funcion para registrar una nueva empresa en la BD
-    def anadirListaEmpresas(self):
-        global iEmpresa
-
-        table1 = [['nombre','sucursal','direccion'],[self.txtNombreEmpresa.toPlainText(),self.spinBoxEmpresa.value(),self.txtDireccionEmpresa.toPlainText()]]
-        etl.appenddb(table1, connection, 'empresas')
-
-        item = QtWidgets.QListWidgetItem()
-        self.listEmpresas.addItem(item)
-
-        item = self.listEmpresas.item(iEmpresa)
-        item.setText(self.txtNombreEmpresa.toPlainText())
-
-    #Funcion para obtener el id de la empresa configurada
-    def seleccionarEmpresa(self):
-        global midEmpresa
-        a = self.listEmpresas.selectedIndexes()[0]
-        midEmpresa = a.row() + 1
-        print (midEmpresa)
-        self.stackedWidget.setCurrentIndex(0)
-
-    #Funcion para eliminar el registro seleccionado
-    def borarRegistro(self):
-        a = self.tableWidgetHistorial.selectedIndexes()[0]
-        print(a)
-        registro = a.row() + 1
-        print (registro)
-        cell = self.tableWidgetHistorial.item(a.row(),0).text()
-        print (cell)
-
-        #Metodo para borrar un registro
-        cur = connection.cursor()
-        cur.execute("DELETE FROM pruebas WHERE idprueba='" + cell + "';")
-        connection.commit()
-        cur.close()
-
-        #Volvemos a consultar los datos
-        pruebas = etl.fromdb(connection, "SELECT * FROM pruebas")
-        #Reseteamos el widget
-        self.tableWidgetHistorial.setRowCount(0)
-        #Rellenamos el widget con los datos de la nueva consulta
-        for row_number, row_data in enumerate(pruebas.data()):
-            self.tableWidgetHistorial.insertRow(row_number)
-            for colum_number, data in enumerate(row_data):
-                self.tableWidgetHistorial.setItem(row_number, colum_number, QtWidgets.QTableWidgetItem(str(data)))
-
-
-    #Funcion que cambia los elementos de la UI dependiendo de la prueba seleccionada en la lista
-    def seleccionarTipo(self):
-        global midTipo
-        global noFichas
-        a = self.listWidgetPresets.selectedIndexes()[0]
-        midTipo = a.row()
-        print (midTipo)
-        tipos = etl.fromdb(connection, 'SELECT * FROM tipos')
-        b = tipos.data()
-
-        #Cambiar contenido de elementos UI al tipo de prueba seleccionado
-        self.comboBtnFicha1.setCurrentIndex(b[midTipo][4] -1)
-        self.comboBtnFicha2.setCurrentIndex(b[midTipo][5] -1)
-        self.comboBtnFicha3.setCurrentIndex(b[midTipo][6] -1)
-
-        self.spinBox_2.setValue(b[midTipo][2])
-        noFichas = b[midTipo][2]
-        x = b[midTipo][3]
-        some_time = QtCore.QTime(0, 0, 0).addSecs(x);
-        self.timeEdit.setTime(some_time)
-
-    #Funcion para registrar un nuevo tipo de prueba en la BD
-    def anadirListaTipos(self):
-        global iTipos
-
-        text, okPressed = QtWidgets.QInputDialog.getText(MainWindow, "Guardar preset","Nombre del preset:", QtWidgets.QLineEdit.Normal, "")
-        if okPressed and text != '':
-            print(text)
-        seconds = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
-
-        table1 = [['nombre','nofichas','tiempo','ficha1','ficha2','ficha3'],[text,self.spinBox_2.value(),seconds,self.comboBtnFicha1.currentIndex() +1,self.comboBtnFicha2.currentIndex() +1,self.comboBtnFicha3.currentIndex() +1]]
-        etl.appenddb(table1, connection, 'tipos')
-
-        item = QtWidgets.QListWidgetItem()
-        self.listWidgetPresets.addItem(item)
-
-        item = self.listWidgetPresets.item(iTipos)
-        item.setText(text)
-
-    #Funcion para mostrar el panel de configuraciones
-    def configuraciones(self):
-        self.stackedWidget.setCurrentIndex(6)
-        self.llenarListaEmpresas()
-
-    #Funcion que hace el query para llenar la lista de empresas de la BD
-    def llenarListaEmpresas(self):
-        global iEmpresa
-
-        self.listEmpresas = QtWidgets.QListWidget(self.scrollAreaWidgetContents_2)
-        font = QtGui.QFont()
-        font.setFamily("Exo")
-        font.setPointSize(14)
-        self.listEmpresas.setFont(font)
-        self.listEmpresas.setObjectName("listEmpresas")
-
-        empresas = etl.fromdb(connection, 'SELECT * FROM empresas')
-
-        for empresa in etl.data(empresas):
-            item = QtWidgets.QListWidgetItem()
-            self.listEmpresas.addItem(item)
-
-        self.horizontalLayout_3.addWidget(self.listEmpresas)
-
-        __sortingEnabled = self.listEmpresas.isSortingEnabled()
-        self.listEmpresas.setSortingEnabled(False)
-
-        iEmpresa = 0
-        for empresa in etl.data(empresas):
-            item = self.listEmpresas.item(iEmpresa)
-            item.setText(empresa[1])
-            iEmpresa += 1
-
-        self.listEmpresas.setSortingEnabled(__sortingEnabled)
-
-    #Funcion que hace el query para llenar la lista de empresas de la BD
-    def llenarListaTipos(self):
-        global iTipos
-
-        tipos = etl.fromdb(connection, 'SELECT * FROM tipos')
-
-        for tipo in etl.data(tipos):
-            item = QtWidgets.QListWidgetItem()
-            self.listWidgetPresets.addItem(item)
-
-        __sortingEnabled = self.listWidgetPresets.isSortingEnabled()
-        self.listWidgetPresets.setSortingEnabled(False)
-
-        iTipos = 0
-        for tipo in etl.data(tipos):
-            item = self.listWidgetPresets.item(iTipos)
-            item.setText(tipo[1])
-            iTipos += 1
-
-        self.listWidgetPresets.setSortingEnabled(__sortingEnabled)
-
-    #Funcion que cierra la aplicación
-    def closeEvent(self):
-        reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
-            "Estas seguro de salir?", QtWidgets.QMessageBox.Yes |
-            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
-
-        if reply == QtWidgets.QMessageBox.Yes:
-            MainWindow.close()
-
-
-class ThreadClass(QtCore.QThread):
-    holi = QtCore.pyqtSignal(int)
-
-    def __init__(self, parent = None):
-        super(ThreadClass, self).__init__(parent)
-
-    def run(self):
-        global tiempoPrueba
-        global tiempoTerminado
-        for segundos in range(tiempoPrueba,-1,-1):
-            print ("Conteo: " + str(segundos))
-            self.holi.emit(segundos)
-            self.sleep(1)
-
-        tiempoTerminado = True
 
 import myresource_rc
 
@@ -1205,3 +742,4 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+

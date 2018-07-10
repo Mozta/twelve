@@ -1033,76 +1033,11 @@ p, li { white-space: pre-wrap; }
      </widget>
     </widget>
     <widget class="QWidget" name="page_historial">
-     <widget class="QScrollArea" name="scrollArea">
-      <property name="geometry">
-       <rect>
-        <x>80</x>
-        <y>60</y>
-        <width>211</width>
-        <height>211</height>
-       </rect>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>207</width>
-         <height>207</height>
-        </rect>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QListWidget" name="listWidgetHistorial">
-          <property name="font">
-           <font>
-            <family>Exo</family>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <item>
-           <property name="text">
-            <string>Prueba 1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Prueba 2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Prueba 3</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Prueba 4</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Prueba 5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>New Item</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
      <widget class="QToolButton" name="btnDelete">
       <property name="geometry">
        <rect>
-        <x>460</x>
-        <y>70</y>
+        <x>1090</x>
+        <y>560</y>
         <width>36</width>
         <height>36</height>
        </rect>
@@ -1118,8 +1053,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QToolButton" name="btnEdit">
       <property name="geometry">
        <rect>
-        <x>510</x>
-        <y>70</y>
+        <x>1140</x>
+        <y>560</y>
         <width>36</width>
         <height>36</height>
        </rect>
@@ -1135,8 +1070,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QToolButton" name="btnExport">
       <property name="geometry">
        <rect>
-        <x>560</x>
-        <y>70</y>
+        <x>1190</x>
+        <y>560</y>
         <width>36</width>
         <height>36</height>
        </rect>
@@ -1167,6 +1102,98 @@ p, li { white-space: pre-wrap; }
       <property name="scaledContents">
        <bool>true</bool>
       </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>29</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Exo</family>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Registros</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tableWidgetHistorial">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>60</y>
+        <width>1201</width>
+        <height>491</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> font: 57 14pt &quot;Exo&quot;;</string>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustToContents</enum>
+      </property>
+      <property name="rowCount">
+       <number>2</number>
+      </property>
+      <property name="columnCount">
+       <number>8</number>
+      </property>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>147</number>
+      </attribute>
+      <row/>
+      <row/>
+      <column>
+       <property name="text">
+        <string>idPrueba</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>New Column</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>idEmpresa</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>idPersona</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>idTipo</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Fecha</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>no.Aciertos</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>aprobado</string>
+       </property>
+      </column>
      </widget>
     </widget>
     <widget class="QWidget" name="page_empresas">
