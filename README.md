@@ -8,7 +8,7 @@ Estas instrucciones le permitirán obtener una copia del proyecto en funcionamie
 
 ### Prerequisites
 
-Para poder ejecutar este proyecto, necesitas las siguientes cosas:
+Para poder ejecutar este proyecto, necesitas lo siguiente:
 
 ```
 -python3
@@ -22,7 +22,6 @@ Para poder ejecutar este proyecto, necesitas las siguientes cosas:
 
 ### Installing
 A continuacion se describen la serie de pasos para instalar y ejecutar el proyecto.
-A step by step series of examples that tell you how to get a development env running
 
 Clonar el proyecto en un directorio
 
