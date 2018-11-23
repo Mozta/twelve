@@ -11,81 +11,64 @@ Estas instrucciones le permitirán obtener una copia del proyecto en funcionamie
 Para poder ejecutar este proyecto, necesitas las siguientes cosas:
 
 ```
-PostgreSQL
-pgadmin3
-Clonar el proyecto
-Ejecutar entorno virtual
-Instalar bibliotecas
+-python3
+-pip
+-PostgreSQL
+-pgadmin3
+-Clonar el proyecto
+-Ejecutar entorno virtual
+-Instalar bibliotecas
 ```
 
 ### Installing
-
+A continuacion se describen la serie de pasos para instalar y ejecutar el proyecto.
 A step by step series of examples that tell you how to get a development env running
 
-Say what the step will be
+Clonar el proyecto en un directorio
 
 ```
-Give the example
+git clone https://github.com/Mozta/twelve.git
 ```
 
-And repeat
+Crear un entorno virtual
 
 ```
-until finished
+python3 -m venv myvenv
+```
+Habilitar el entorno virtual
+
+```
+source myvenv/bin/activate
+```
+Entrar a la carpeta del proyecto
+
+```
+cd twelve
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+Instalar los requirements
+
+```
+pip install -r requirements.txt
+```
+
+Ahora tendras todo el proyecto correctamente instalado
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+Entrar a la carpeta qt y ejecutar el proyecto
 
 ```
-Give an example
+cd qt
+python twelve0.py
 ```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* [Python3](https://www.python.org/downloads/) - Lenguaje usado
+* [QT](https://medium.com/@hektorprofe/primeros-pasos-en-pyqt-5-y-qt-designer-programas-gr%C3%A1ficos-con-python-6161fba46060) - Interfaz grafica (instrucciones)
+* [PostgreSQL](https://www.postgresql.org/) - BD
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
