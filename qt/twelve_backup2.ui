@@ -356,8 +356,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QLabel" name="label_5">
       <property name="geometry">
        <rect>
-        <x>980</x>
-        <y>120</y>
+        <x>990</x>
+        <y>200</y>
         <width>101</width>
         <height>20</height>
        </rect>
@@ -375,8 +375,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QSpinBox" name="spinBox_2">
       <property name="geometry">
        <rect>
-        <x>970</x>
-        <y>150</y>
+        <x>980</x>
+        <y>230</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -391,8 +391,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QTimeEdit" name="timeEdit">
       <property name="geometry">
        <rect>
-        <x>970</x>
-        <y>290</y>
+        <x>980</x>
+        <y>370</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -410,8 +410,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QLabel" name="label_6">
       <property name="geometry">
        <rect>
-        <x>980</x>
-        <y>260</y>
+        <x>990</x>
+        <y>340</y>
         <width>91</width>
         <height>20</height>
        </rect>
@@ -473,7 +473,7 @@ p, li { white-space: pre-wrap; }
       </item>
       <item>
        <property name="text">
-        <string>Amarillo</string>
+        <string>Verde</string>
        </property>
       </item>
       <item>
@@ -504,7 +504,7 @@ p, li { white-space: pre-wrap; }
       </item>
       <item>
        <property name="text">
-        <string>Amarillo</string>
+        <string>Verde</string>
        </property>
       </item>
       <item>
@@ -535,7 +535,7 @@ p, li { white-space: pre-wrap; }
       </item>
       <item>
        <property name="text">
-        <string>Amarillo</string>
+        <string>Verde</string>
        </property>
       </item>
       <item>
@@ -649,41 +649,6 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="scaledContents">
        <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QSpinBox" name="speedBox">
-      <property name="geometry">
-       <rect>
-        <x>970</x>
-        <y>430</y>
-        <width>171</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Exo</family>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_12">
-      <property name="geometry">
-       <rect>
-        <x>980</x>
-        <y>400</y>
-        <width>101</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Exo</family>
-        <pointsize>16</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Velocidad</string>
       </property>
      </widget>
     </widget>
@@ -1375,8 +1340,8 @@ p, li { white-space: pre-wrap; }
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1189</width>
-         <height>289</height>
+         <width>1187</width>
+         <height>287</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_3">

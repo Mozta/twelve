@@ -2,42 +2,11 @@
 
 # Form implementation generated from reading ui file 'twelve.ui'
 #
-# Created by: PyQt5 UI code generator 5.10.1
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QIcon
-
-#My imports
-import petl as etl
-import psycopg2
-import datetime
-import time
-from datetime import date
-import serial
-arduino = serial.Serial('/dev/ttyUSB0',9600)
-print("starting!")
-
-# Variables globales
-connection = psycopg2.connect('dbname=twelveBD user=postgres password=admin')
-table_personas = etl.fromdb(connection, 'SELECT * FROM personas')
-
-#indice para recorrrer la lista de empresas
-iEmpresa = 0
-iTipos = 0
-
-#Obtener empresa seleccionada para los registros de pruebas
-midEmpresa = 1
-#Obtener tipo de prueba seleccionada para los registros de pruebas
-midTipo = 1
-midPersona = 1
-
-noFichas = 0
-mPiezasCorrectas = 0
-mPiezasIncorrectas = 0
-tiempoPrueba = 0
-tiempoTerminado = False #Bandera para determinar el fin de la prueba
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -202,7 +171,6 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_registro)
         self.page_seleccion = QtWidgets.QWidget()
         self.page_seleccion.setObjectName("page_seleccion")
-
         self.btnAddPreset = QtWidgets.QPushButton(self.page_seleccion)
         self.btnAddPreset.setGeometry(QtCore.QRect(570, 600, 200, 41))
         font = QtGui.QFont()
@@ -214,28 +182,28 @@ class Ui_MainWindow(object):
         self.btnAddPreset.setFont(font)
         self.btnAddPreset.setObjectName("btnAddPreset")
         self.label_5 = QtWidgets.QLabel(self.page_seleccion)
-        self.label_5.setGeometry(QtCore.QRect(990, 200, 101, 20))
+        self.label_5.setGeometry(QtCore.QRect(980, 120, 101, 20))
         font = QtGui.QFont()
         font.setFamily("Exo")
         font.setPointSize(16)
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
         self.spinBox_2 = QtWidgets.QSpinBox(self.page_seleccion)
-        self.spinBox_2.setGeometry(QtCore.QRect(980, 230, 171, 41))
+        self.spinBox_2.setGeometry(QtCore.QRect(970, 150, 171, 41))
         font = QtGui.QFont()
         font.setFamily("Exo")
         font.setPointSize(14)
         self.spinBox_2.setFont(font)
         self.spinBox_2.setObjectName("spinBox_2")
         self.timeEdit = QtWidgets.QTimeEdit(self.page_seleccion)
-        self.timeEdit.setGeometry(QtCore.QRect(980, 370, 171, 41))
+        self.timeEdit.setGeometry(QtCore.QRect(970, 290, 171, 41))
         font = QtGui.QFont()
         font.setFamily("Exo")
         font.setPointSize(14)
         self.timeEdit.setFont(font)
         self.timeEdit.setObjectName("timeEdit")
         self.label_6 = QtWidgets.QLabel(self.page_seleccion)
-        self.label_6.setGeometry(QtCore.QRect(990, 340, 91, 20))
+        self.label_6.setGeometry(QtCore.QRect(980, 260, 91, 20))
         font = QtGui.QFont()
         font.setFamily("Exo")
         font.setPointSize(16)
@@ -326,7 +294,23 @@ class Ui_MainWindow(object):
         self.loguito_2.setPixmap(QtGui.QPixmap(":/ASSETS/logo_icono.png"))
         self.loguito_2.setScaledContents(True)
         self.loguito_2.setObjectName("loguito_2")
+        self.speedBox = QtWidgets.QSpinBox(self.page_seleccion)
+        self.speedBox.setGeometry(QtCore.QRect(970, 430, 171, 41))
+        font = QtGui.QFont()
+        font.setFamily("Exo")
+        font.setPointSize(14)
+        self.speedBox.setFont(font)
+        self.speedBox.setObjectName("speedBox")
+        self.label_12 = QtWidgets.QLabel(self.page_seleccion)
+        self.label_12.setGeometry(QtCore.QRect(980, 400, 101, 20))
+        font = QtGui.QFont()
+        font.setFamily("Exo")
+        font.setPointSize(16)
+        self.label_12.setFont(font)
+        self.label_12.setObjectName("label_12")
         self.stackedWidget.addWidget(self.page_seleccion)
+        ## SELECCION de PRUEBA
+
         self.page_ejecucion = QtWidgets.QWidget()
         self.page_ejecucion.setObjectName("page_ejecucion")
         self.imgFicha1 = QtWidgets.QLabel(self.page_ejecucion)
@@ -404,6 +388,8 @@ class Ui_MainWindow(object):
         self.loguito_3.setPixmap(QtGui.QPixmap(":/ASSETS/logo_icono.png"))
         self.loguito_3.setScaledContents(True)
         self.loguito_3.setObjectName("loguito_3")
+
+        ## SECCION DE EJECUCION DE PRUEBA
         self.stackedWidget.addWidget(self.page_ejecucion)
         self.page_resultados = QtWidgets.QWidget()
         self.page_resultados.setObjectName("page_resultados")
@@ -475,38 +461,8 @@ class Ui_MainWindow(object):
         self.loguito_4.setScaledContents(True)
         self.loguito_4.setObjectName("loguito_4")
         self.stackedWidget.addWidget(self.page_resultados)
-        
         self.page_historial = QtWidgets.QWidget()
         self.page_historial.setObjectName("page_historial")
-        # self.scrollArea = QtWidgets.QScrollArea(self.page_historial)
-        # self.scrollArea.setGeometry(QtCore.QRect(80, 60, 211, 211))
-        # self.scrollArea.setWidgetResizable(True)
-        # self.scrollArea.setObjectName("scrollArea")
-        # self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        # self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 207, 207))
-        # self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        # self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
-        # self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        # self.listWidgetHistorial = QtWidgets.QListWidget(self.scrollAreaWidgetContents)
-        # font = QtGui.QFont()
-        # font.setFamily("Exo")
-        # font.setPointSize(14)
-        # self.listWidgetHistorial.setFont(font)
-        # self.listWidgetHistorial.setObjectName("listWidgetHistorial")
-        # item = QtWidgets.QListWidgetItem()
-        # self.listWidgetHistorial.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listWidgetHistorial.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listWidgetHistorial.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listWidgetHistorial.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listWidgetHistorial.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listWidgetHistorial.addItem(item)
-        # self.horizontalLayout_2.addWidget(self.listWidgetHistorial)
-        # self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.btnDelete = QtWidgets.QToolButton(self.page_historial)
         self.btnDelete.setGeometry(QtCore.QRect(1090, 560, 36, 36))
         self.btnDelete.setText("")
@@ -568,7 +524,6 @@ class Ui_MainWindow(object):
         self.tableWidgetHistorial.setHorizontalHeaderItem(7, item)
         self.tableWidgetHistorial.horizontalHeader().setDefaultSectionSize(147)
         self.stackedWidget.addWidget(self.page_historial)
-        
         self.page_empresas = QtWidgets.QWidget()
         self.page_empresas.setObjectName("page_empresas")
         self.txtNombreEmpresa = QtWidgets.QTextEdit(self.page_empresas)
@@ -617,29 +572,29 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 1187, 287))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 1189, 289))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        # self.listEmpresas = QtWidgets.QListWidget(self.scrollAreaWidgetContents_2)
-        # font = QtGui.QFont()
-        # font.setFamily("Exo")
-        # font.setPointSize(14)
-        # self.listEmpresas.setFont(font)
-        # self.listEmpresas.setObjectName("listEmpresas")
-        # item = QtWidgets.QListWidgetItem()
-        # self.listEmpresas.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listEmpresas.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listEmpresas.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listEmpresas.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listEmpresas.addItem(item)
-        # item = QtWidgets.QListWidgetItem()
-        # self.listEmpresas.addItem(item)
-        # self.horizontalLayout_3.addWidget(self.listEmpresas)
+        self.listEmpresas = QtWidgets.QListWidget(self.scrollAreaWidgetContents_2)
+        font = QtGui.QFont()
+        font.setFamily("Exo")
+        font.setPointSize(14)
+        self.listEmpresas.setFont(font)
+        self.listEmpresas.setObjectName("listEmpresas")
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.listEmpresas.addItem(item)
+        self.horizontalLayout_3.addWidget(self.listEmpresas)
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
         self.btnSeleccionarEmpresa = QtWidgets.QPushButton(self.page_empresas)
         self.btnSeleccionarEmpresa.setGeometry(QtCore.QRect(980, 320, 231, 41))
@@ -651,6 +606,8 @@ class Ui_MainWindow(object):
         self.loguito_6.setScaledContents(True)
         self.loguito_6.setObjectName("loguito_6")
         self.stackedWidget.addWidget(self.page_empresas)
+
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.toolBar = QtWidgets.QToolBar(MainWindow)
         font = QtGui.QFont()
@@ -670,9 +627,6 @@ class Ui_MainWindow(object):
         font.setFamily("Exo")
         self.actionInicio.setFont(font)
         self.actionInicio.setObjectName("actionInicio")
-        self.actionInicio.setStatusTip('Regresar a inicio')
-        self.actionInicio.triggered.connect(self.menu_inicio)
-
         self.actionConfiguraci_n = QtWidgets.QAction(MainWindow)
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap("images/conf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -681,9 +635,6 @@ class Ui_MainWindow(object):
         font.setFamily("Exo")
         self.actionConfiguraci_n.setFont(font)
         self.actionConfiguraci_n.setObjectName("actionConfiguraci_n")
-        self.actionConfiguraci_n.setStatusTip('Configuraciones')
-        self.actionConfiguraci_n.triggered.connect(self.configuraciones)
-
         self.actionSalir = QtWidgets.QAction(MainWindow)
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap("images/exit24.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -692,9 +643,6 @@ class Ui_MainWindow(object):
         font.setFamily("Exo")
         self.actionSalir.setFont(font)
         self.actionSalir.setObjectName("actionSalir")
-        self.actionSalir.setStatusTip('Salir de la aplicación')
-        self.actionSalir.triggered.connect(self.closeEvent)
-
         self.toolBar.addAction(self.actionInicio)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionConfiguraci_n)
@@ -704,28 +652,23 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-        #Mio
+###########################
         self.btnPrueba.clicked.connect(self.prueba) #Al hacer clic en este boton mandamos a llamar a la funcion prueba
         self.btnHistorial.clicked.connect(self.historial)#Al hacer clic en este boton mandamos a llamar a la funcion historial
         self.btnRegistrar.clicked.connect(self.registrarPersona)#Al hacer clic en este boton mandamos a llamar a la funcion registrarPersona
-
         self.btnGuardarEmpresa.clicked.connect(self.anadirListaEmpresas)#Al hacer clic en este boton mandamos a llamar a la funcion anadirListaEmpresas
         self.btnSeleccionarEmpresa.clicked.connect(self.seleccionarEmpresa)#Al hacer clic en este boton mandamos a llamar a la funcion seleccionarEmpresa
-
         self.btnAddPreset.clicked.connect(self.anadirListaTipos)#Al hacer clic en este boton mandamos a llamar a la funcion anadirListaTipos
         self.btnSeleccionarTipo.clicked.connect(self.seleccionarTipo)
-
         self.btnRun.clicked.connect(self.mostrarPrueba)
         self.btnStart.clicked.connect(self.ejecutarPrueba)
         self.btnFalso.clicked.connect(self.simularFicha)
         self.btnStop.clicked.connect(self.detenerPrueba)
-
         self.btnReinicio.clicked.connect(self.reiniciarPrueba)
         self.btnFinalizar.clicked.connect(self.finalizarPrueba)
-
         self.btnDelete.clicked.connect(self.borarRegistro)
 
+###########################
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Twelve Technologies"))
@@ -746,20 +689,30 @@ class Ui_MainWindow(object):
         self.label_6.setText(_translate("MainWindow", "Tiempo"))
         self.btnRun.setText(_translate("MainWindow", "Ejecutar prueba"))
         self.comboBtnFicha1.setItemText(0, _translate("MainWindow", "Rojo"))
-        self.comboBtnFicha1.setItemText(1, _translate("MainWindow", "Verde"))
+        self.comboBtnFicha1.setItemText(1, _translate("MainWindow", "Amarillo"))
         self.comboBtnFicha1.setItemText(2, _translate("MainWindow", "Azul"))
         self.comboBtnFicha2.setItemText(0, _translate("MainWindow", "Rojo"))
-        self.comboBtnFicha2.setItemText(1, _translate("MainWindow", "Verde"))
+        self.comboBtnFicha2.setItemText(1, _translate("MainWindow", "Amarillo"))
         self.comboBtnFicha2.setItemText(2, _translate("MainWindow", "Azul"))
         self.comboBtnFicha3.setItemText(0, _translate("MainWindow", "Rojo"))
-        self.comboBtnFicha3.setItemText(1, _translate("MainWindow", "Verde"))
+        self.comboBtnFicha3.setItemText(1, _translate("MainWindow", "Amarillo"))
         self.comboBtnFicha3.setItemText(2, _translate("MainWindow", "Azul"))
         self.btnSeleccionarTipo.setText(_translate("MainWindow", "Seleccionar prueba"))
         __sortingEnabled = self.listWidgetPresets.isSortingEnabled()
         self.listWidgetPresets.setSortingEnabled(False)
-
+        item = self.listWidgetPresets.item(0)
+        item.setText(_translate("MainWindow", "Fácil"))
+        item = self.listWidgetPresets.item(1)
+        item.setText(_translate("MainWindow", "Intermedio"))
+        item = self.listWidgetPresets.item(2)
+        item.setText(_translate("MainWindow", "Dificil"))
+        item = self.listWidgetPresets.item(3)
+        item.setText(_translate("MainWindow", "Veterano"))
+        item = self.listWidgetPresets.item(4)
+        item.setText(_translate("MainWindow", "Dios"))
         self.listWidgetPresets.setSortingEnabled(__sortingEnabled)
         self.label_10.setText(_translate("MainWindow", "Tipo de Pruebas"))
+        self.label_12.setText(_translate("MainWindow", "Velocidad"))
         self.btnStop.setText(_translate("MainWindow", "STOP"))
         self.btnStart.setText(_translate("MainWindow", "Iniciar Prueba"))
         self.btnFalso.setText(_translate("MainWindow", "Insertar secuencia correcta"))
@@ -786,42 +739,26 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "no.Fallas"))
         item = self.tableWidgetHistorial.horizontalHeaderItem(7)
         item.setText(_translate("MainWindow", "aprobado"))
-
-        #__sortingEnabled = self.listWidgetHistorial.isSortingEnabled()
-        #self.listWidgetHistorial.setSortingEnabled(False)
-        # item = self.listWidgetHistorial.item(0)
-        # item.setText(_translate("MainWindow", "Prueba 1"))
-        # item = self.listWidgetHistorial.item(1)
-        # item.setText(_translate("MainWindow", "Prueba 2"))
-        # item = self.listWidgetHistorial.item(2)
-        # item.setText(_translate("MainWindow", "Prueba 3"))
-        # item = self.listWidgetHistorial.item(3)
-        # item.setText(_translate("MainWindow", "Prueba 4"))
-        # item = self.listWidgetHistorial.item(4)
-        # item.setText(_translate("MainWindow", "Prueba 5"))
-        # item = self.listWidgetHistorial.item(5)
-        # item.setText(_translate("MainWindow", "New Item"))
-        # self.listWidgetHistorial.setSortingEnabled(__sortingEnabled)
         self.label_7.setText(_translate("MainWindow", "Nombre de la empresa"))
         self.btnRegistrar_2.setText(_translate("MainWindow", "Siguiente"))
         self.label_8.setText(_translate("MainWindow", "Dirección"))
         self.label_9.setText(_translate("MainWindow", "Surcursal"))
         self.btnGuardarEmpresa.setText(_translate("MainWindow", "Guardar empresa"))
-        # __sortingEnabled = self.listEmpresas.isSortingEnabled()
-        # self.listEmpresas.setSortingEnabled(False)
-        # item = self.listEmpresas.item(0)
-        # item.setText(_translate("MainWindow", "Prueba 1"))
-        # item = self.listEmpresas.item(1)
-        # item.setText(_translate("MainWindow", "Prueba 2"))
-        # item = self.listEmpresas.item(2)
-        # item.setText(_translate("MainWindow", "Prueba 3"))
-        # item = self.listEmpresas.item(3)
-        # item.setText(_translate("MainWindow", "Prueba 4"))
-        # item = self.listEmpresas.item(4)
-        # item.setText(_translate("MainWindow", "Prueba 5"))
-        # item = self.listEmpresas.item(5)
-        # item.setText(_translate("MainWindow", "New Item"))
-        # self.listEmpresas.setSortingEnabled(__sortingEnabled)
+        __sortingEnabled = self.listEmpresas.isSortingEnabled()
+        self.listEmpresas.setSortingEnabled(False)
+        item = self.listEmpresas.item(0)
+        item.setText(_translate("MainWindow", "Prueba 1"))
+        item = self.listEmpresas.item(1)
+        item.setText(_translate("MainWindow", "Prueba 2"))
+        item = self.listEmpresas.item(2)
+        item.setText(_translate("MainWindow", "Prueba 3"))
+        item = self.listEmpresas.item(3)
+        item.setText(_translate("MainWindow", "Prueba 4"))
+        item = self.listEmpresas.item(4)
+        item.setText(_translate("MainWindow", "Prueba 5"))
+        item = self.listEmpresas.item(5)
+        item.setText(_translate("MainWindow", "New Item"))
+        self.listEmpresas.setSortingEnabled(__sortingEnabled)
         self.btnSeleccionarEmpresa.setText(_translate("MainWindow", "Seleccionar empresa"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.actionInicio.setText(_translate("MainWindow", "Inicio"))
@@ -831,6 +768,7 @@ class Ui_MainWindow(object):
         self.actionSalir.setText(_translate("MainWindow", "Salir"))
         self.actionSalir.setToolTip(_translate("MainWindow", "Salir de la aplicación"))
         self.actionSalir.setShortcut(_translate("MainWindow", "Ctrl+Q"))
+#############################
 
     #Funcion para cambiar al panel inicio
     def menu_inicio(self):
@@ -907,7 +845,7 @@ class Ui_MainWindow(object):
         b = tipos.data()
         c =10000 + 1000*b[midTipo][4]+100*b[midTipo][6]+10*b[midTipo][5]+1
         #print(c)
-        
+
         arduino.write(str(c).encode())
         arduino.flush()
         #arduino.close()
@@ -918,7 +856,7 @@ class Ui_MainWindow(object):
         self.lblTiempo.setStyleSheet("color: rgb(0,0,0)")
         self.btnStop.setEnabled(True)
         self.btnStart.setEnabled(False)
-        
+
 
         #Se establece la variable tiempoPrueba al tiempo de la prueba seleccionado de forma global
         tiempoPrueba = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
@@ -933,7 +871,7 @@ class Ui_MainWindow(object):
         #------ END: Hilo para el contador ------------
 
     #Funcion de paro de emergencia
-    def detenerPrueba(self):        
+    def detenerPrueba(self):
         stop="00000"
         arduino.write(stop.encode())
         #arduino.flush()
@@ -957,10 +895,10 @@ class Ui_MainWindow(object):
         #Si el contador llega a 0 finaliza y cambia de panel
         if val == 0:
             time.sleep(2)
-            
+
             text=arduino.read(arduino.inWaiting())
             mPiezasCorrectas=int(text)
-            print(text)       
+            print(text)
             self.stackedWidget.setCurrentIndex(4)
             self.lcdNumberWin.setProperty("intValue", mPiezasCorrectas)
             self.lcdNumberFail.setProperty("intValue", noFichas - mPiezasCorrectas)
@@ -973,7 +911,7 @@ class Ui_MainWindow(object):
             self.lblTiempo.setText(t[2:])
             self.lblTiempo.repaint()
 
-            
+
             time.sleep(1)
 
     #Funcion que cambia la UI de las fichas dependiendo de la prueba seleccionada
@@ -1117,7 +1055,7 @@ class Ui_MainWindow(object):
         self.comboBtnFicha1.setCurrentIndex(b[midTipo][4] -1)
         self.comboBtnFicha2.setCurrentIndex(b[midTipo][5] -1)
         self.comboBtnFicha3.setCurrentIndex(b[midTipo][6] -1)
-        
+
         #temp = comando
         #arduino.write(temp.encode())
         #arduino.close()
@@ -1234,6 +1172,8 @@ class ThreadClass(QtCore.QThread):
 
         tiempoTerminado = True
 
+
+#############################
 import myresource_rc
 
 if __name__ == "__main__":

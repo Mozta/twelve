@@ -6,8 +6,7 @@ petl==1.1.1
 psycopg2==2.7.4
 psycopg2-binary==2.7.4
 pyparsing==2.2.0
-PyQt5==5.10.1
 python-dateutil==2.7.2
 pytz==2018.3
-sip==4.19.8
+#sip==4.19.8
 six==1.11.0
