@@ -1,4 +1,4 @@
-#include "Adafruit_TCS34725.h"
+#include <Adafruit_TCS34725.h>
 
 //descomentar para usar el monitor serial de Arduino 
 //#define serial_arduino
@@ -13,7 +13,7 @@
 Adafruit_TCS34725 ColorSensor = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_4X);
 
 //declaración e inicializacion de variables
-bool error_flag = 0, system_activated = 0;
+bool error_flag = 0, system_activated = 0, last_color_sense = 0;
 int top_color = 0, mid_color = 0, bott_color = 0;//1-blue, 2-red, 3-yellow
 int sensor_pos = 0;
 byte motor_speed = 1;
@@ -21,7 +21,8 @@ int error_count = 0;
 String command = "";
 
 int read_speed = 1;
-float tActual;
+//float tActual;
+unsigned long tActual;
 int estado;
 int success_count = 0;
 bool checkTime;
@@ -69,15 +70,14 @@ int lectura(int sensorToRead, int colorToCompare)
         return 0; // regresamos un 0
 }
 
-bool chkTime(float referenceTime, float umbralTime)
+bool chkTime(unsigned long referenceTime, unsigned long umbralTime)
 {
-    float diffT = (millis() - referenceTime); // medimos la diferencia de tiempo entre la entrada de una ficha y el tiempo actual
+    unsigned long diffT = (millis() - referenceTime); // medimos la diferencia de tiempo entre la entrada de una ficha y el tiempo actual
                                               //Serial.println(diffT);
     if (diffT >= umbralTime) // si la diferencia es mayor a 3.5 segundos
         return false; // desactivamos el checador de tiempo
     else
         return true;
-
 }
 
 void loop()
@@ -102,17 +102,16 @@ void loop()
     //funciona hasta que se pida desactivar
     while (system_activated)
     {
-        float timer = 970 / read_speed;
-        float tWait = 3000 / read_speed;
-
-
+        unsigned long timer = 970 / read_speed;
+        unsigned long tWait = 3000 / read_speed;
+        
         if (checkTime)
         { // si el checador está activo
             checkTime = chkTime(tActual, tWait);
             if (!checkTime)
                 sensor_pos = 0;  // forzamos volver al estado 0
         }
-
+        
         /*Logica de estados*/
         switch (sensor_pos)
         {
@@ -129,9 +128,9 @@ void loop()
                 estado = lectura(0, top_color); // obtenemos el estado de S1
                 if (estado == 1)
                 { // por la lógica de fichas, si existe una ficha y es la ficha esperada
-                  #ifdef serial_acierto 
+                    #ifdef serial_acierto 
                     Serial.println("Acierto en pos 1");
-                  #endif
+                    #endif
                     sensor_pos = 2;// pasamos al estado 2
                     tActual = millis(); // tomamos el tiempo de inicio de entrada del conjunto de fichas
                     checkTime = true; // activamos el checador de tiempo por ser el primer sensor
@@ -139,84 +138,84 @@ void loop()
                 }
                 else if (estado == 2)
                 {// por la lógica de fichas, si existe una ficha pero NO es la ficha esperada
-                  #ifdef serial_falla 
+                    #ifdef serial_falla 
                     Serial.println("Falla en pos 1");
-                  #endif
+                    #endif
                     sensor_pos = 4; // pasamos al estado 4
                 }
                 break;
 
-            case 2: // estado 2, leyendo sensor 2
+            case 2: //estado 2, leyendo sensor 2
                 estado = lectura(1, mid_color); // obtenemos el estado de S2
                 if (estado == 1)
-                { // por la lógica de fichas, si existe una ficha y es la ficha esperada
-                  #ifdef serial_acierto 
+                { //por la lógica de fichas, si existe una ficha y es la ficha esperada
+                    #ifdef serial_acierto 
                     Serial.println("Acierto en pos 2");
-                  #endif
+                    #endif
                     sensor_pos = 3;// pasamos al estado 3
                     delay(timer);
                 }
                 else if (estado == 2)
-                {// por la lógica de fichas, si existe una ficha pero NO es la ficha esperada
-                  #ifdef serial_falla 
+                { //por la lógica de fichas, si existe una ficha pero NO es la ficha esperada
+                    #ifdef serial_falla 
                     Serial.println("Falla en pos 2");
-                  #endif
+                    #endif
                     sensor_pos = 4; // pasamos al estado 4
                 }
                 break;
 
-            case 3: // estado 3, leyendo sensor 3  
+            case 3: //estado 3, leyendo sensor 3  
                 estado = lectura(2, bott_color); // obtenemos el estado de S2
                 if (estado == 1)
-                { // por la lógica de fichas, si existe una ficha y es la ficha esperada
-                  #ifdef serial_acierto 
+                {// por la lógica de fichas, si existe una ficha y es la ficha esperada
+                    #ifdef serial_acierto 
                     Serial.println("Acierto en pos 3");
-                  #endif
+                    #endif
                     sensor_pos = 5;// pasamos al estado 5
                 }
                 else if (estado == 2)
                 {// por la lógica de fichas, si existe una ficha pero NO es la ficha esperada
-                  #ifdef serial_falla 
+                    #ifdef serial_falla
                     Serial.println("Falla en pos 3");
-                  #endif
+                    #endif
                     sensor_pos = 4; // pasamos al estado 4
                 }
                 break;
 
-            case 4: // estado 4, contador de errores
-                error_count += 1; // incrementamos el contador de errores
+            case 4: //estado 4, contador de errores
+                error_count += 1; //incrementamos el contador de errores
                 #ifdef serial_success 
                 Serial.println("Error numero : " + String(error_count)); 
                 #endif
-                sensor_pos = 0; // pasamos al estado 0 para esperar nueva ficha
-                checkTime = true; // activamos el checador de tiempo
-                tActual = millis(); // definimos el tiempo actual para compararlo
+                sensor_pos = 0; //pasamos al estado 0 para esperar nueva ficha
+                checkTime = true; //activamos el checador de tiempo
+                tActual = millis(); //definimos el tiempo actual para compararlo
                 while (checkTime)
-                { // esperaremos aqui mientras el tiempo de lectura de fichas no haya llegado al definido (2500/velocidad del motor)
+                { //esperaremos aqui mientras el tiempo de lectura de fichas no haya llegado al definido (2500/velocidad del motor)
                     checkTime = chkTime(tActual, tWait);
                 }
                 break;
-
+                
             case 5: //estado 5, contador de aciertos
-                success_count += 1; // incrementamos el contador de aciertos
-                #ifdef serial_success 
+                success_count += 1; //incrementamos el contador de aciertos
+                #ifdef serial_success
                 Serial.println("Exito numero : " + String(success_count)); 
                 #endif
-                
                 sensor_pos = 0;
-                checkTime = true; // activamos el checador de tiempo
-                tActual = millis(); // definimos el tiempo actual para compararlo
+                checkTime = true; //activamos el checador de tiempo
+                tActual = millis(); //definimos el tiempo actual para compararlo
                 while (checkTime)
-                { // esperaremos aqui mientras el tiempo de lectura de fichas no haya llegado al definido (2500/velocidad del motor)
+                { //esperaremos aqui mientras el tiempo de lectura de fichas no haya llegado al definido (2500/velocidad del motor)
                     checkTime = chkTime(tActual, tWait);
                 }
         }
-        //lee comnado
-        read_command();
-
+        //lee comando solo cuando el estado esta en 0
+        if(!sensor_pos)
+          read_command();
+          
         if (!system_activated)
         {
-            Serial.print(success_count);
+            Serial.println(success_count);
         }
     }
 }
@@ -268,7 +267,6 @@ void timerInit(uint8_t opc)
 
 float GetMax(float r, float g, float b)
 {
-
     float maxx = r;
 
     if (g > maxx)
@@ -305,14 +303,14 @@ int colorSense(byte x) ///funcion sensado color
               #ifdef serial_color 
               Serial.println("Es Amarillo"); 
               #endif
-                return 3;
+              return 3;
             }
             else // de otro modo, al g+b no ser mayores que r, significa que el color es completamente rojo
             {
               #ifdef serial_color 
               Serial.println("Es Rojo"); 
               #endif
-                return 2;
+              return 2;
             }
         }
         //else if(Max==g){}// si el mayor es verde
@@ -322,13 +320,13 @@ int colorSense(byte x) ///funcion sensado color
           #ifdef serial_color 
           Serial.println("Es Azul"); 
           #endif
-            return 1;
+          return 1;
         }
         else // de otro modo el mayor es verde
         {    
-          // #ifdef serial_color 
+          #ifdef serial_color 
           //Serial.println("Es Verde"); 
-          //#endif
+          #endif
           return 0;
         }
     }
