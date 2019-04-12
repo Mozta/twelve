@@ -45,7 +45,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.showMaximized()
         #MainWindow.resize(1280, 800)
-        
+
         MainWindow.setStyleSheet("#centralwidget \n"
 "{\n"
 "    background: #D9DFE8;\n"
@@ -209,7 +209,7 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_registro)
         self.page_seleccion = QtWidgets.QWidget()
         self.page_seleccion.setObjectName("page_seleccion")
-        
+
         self.btnAddPreset = QtWidgets.QPushButton(self.page_seleccion)
         self.btnAddPreset.setGeometry(QtCore.QRect(570, 600, 200, 41))
         font = QtGui.QFont()
@@ -220,7 +220,7 @@ class Ui_MainWindow(object):
         font.setWeight(7)
         self.btnAddPreset.setFont(font)
         self.btnAddPreset.setObjectName("btnAddPreset")
-        
+
         self.label_5 = QtWidgets.QLabel(self.page_seleccion)
         self.label_5.setGeometry(QtCore.QRect(990, 120, 120, 20))
         font = QtGui.QFont()
@@ -228,7 +228,7 @@ class Ui_MainWindow(object):
         font.setPointSize(16)
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
-        
+
         self.spinBox_2 = QtWidgets.QSpinBox(self.page_seleccion)
         self.spinBox_2.setGeometry(QtCore.QRect(990, 150, 171, 41))
         font = QtGui.QFont()
@@ -236,7 +236,7 @@ class Ui_MainWindow(object):
         font.setPointSize(14)
         self.spinBox_2.setFont(font)
         self.spinBox_2.setObjectName("spinBox_2")
-        
+
         self.timeEdit = QtWidgets.QTimeEdit(self.page_seleccion)
         self.timeEdit.setGeometry(QtCore.QRect(990, 290, 171, 41))
         font = QtGui.QFont()
@@ -244,7 +244,7 @@ class Ui_MainWindow(object):
         font.setPointSize(14)
         self.timeEdit.setFont(font)
         self.timeEdit.setObjectName("timeEdit")
-        
+
         self.label_6 = QtWidgets.QLabel(self.page_seleccion)
         self.label_6.setGeometry(QtCore.QRect(990, 260, 91, 20))
         font = QtGui.QFont()
@@ -252,7 +252,7 @@ class Ui_MainWindow(object):
         font.setPointSize(16)
         self.label_6.setFont(font)
         self.label_6.setObjectName("label_6")
-        
+
         self.btnRun = QtWidgets.QPushButton(self.page_seleccion)
         self.btnRun.setGeometry(QtCore.QRect(960, 600, 200, 41))
         font = QtGui.QFont()
@@ -264,7 +264,7 @@ class Ui_MainWindow(object):
         self.btnRun.setFont(font)
         self.btnRun.setStyleSheet("background-color: #00D5A8;")
         self.btnRun.setObjectName("btnRun")
-        
+
         self.comboBtnFicha1 = QtWidgets.QComboBox(self.page_seleccion)
         self.comboBtnFicha1.setGeometry(QtCore.QRect(570, 170, 191, 61))
         font = QtGui.QFont()
@@ -275,7 +275,7 @@ class Ui_MainWindow(object):
         self.comboBtnFicha1.addItem("")
         self.comboBtnFicha1.addItem("")
         self.comboBtnFicha1.addItem("")
-        
+
         self.comboBtnFicha2 = QtWidgets.QComboBox(self.page_seleccion)
         self.comboBtnFicha2.setGeometry(QtCore.QRect(570, 270, 191, 61))
         font = QtGui.QFont()
@@ -296,7 +296,7 @@ class Ui_MainWindow(object):
         self.comboBtnFicha3.addItem("")
         self.comboBtnFicha3.addItem("")
         self.comboBtnFicha3.addItem("")
-        
+
         self.btnSeleccionarTipo = QtWidgets.QPushButton(self.page_seleccion)
         self.btnSeleccionarTipo.setGeometry(QtCore.QRect(150, 600, 231, 41))
         font = QtGui.QFont()
@@ -307,7 +307,7 @@ class Ui_MainWindow(object):
         font.setWeight(7)
         self.btnSeleccionarTipo.setFont(font)
         self.btnSeleccionarTipo.setObjectName("btnSeleccionarTipo")
-        
+
         self.listWidgetPresets = QtWidgets.QListWidget(self.page_seleccion)
         self.listWidgetPresets.setGeometry(QtCore.QRect(120, 80, 291, 431))
         font = QtGui.QFont()
@@ -329,7 +329,7 @@ class Ui_MainWindow(object):
         self.listWidgetPresets.addItem(item)
         item = QtWidgets.QListWidgetItem()
         self.listWidgetPresets.addItem(item)
-        
+
         self.label_10 = QtWidgets.QLabel(self.page_seleccion)
         self.label_10.setGeometry(QtCore.QRect(140, 50, 160, 20))
         font = QtGui.QFont()
@@ -337,7 +337,7 @@ class Ui_MainWindow(object):
         font.setPointSize(16)
         self.label_10.setFont(font)
         self.label_10.setObjectName("label_10")
-        
+
         self.loguito_2 = QtWidgets.QLabel(self.page_seleccion)
         self.loguito_2.setGeometry(QtCore.QRect(30, 634, 45, 41))
         self.loguito_2.setText("")
@@ -352,7 +352,7 @@ class Ui_MainWindow(object):
         font.setPointSize(14)
         self.speedBox.setFont(font)
         self.speedBox.setObjectName("speedBox")
-        
+
         self.label_12 = QtWidgets.QLabel(self.page_seleccion)
         self.label_12.setGeometry(QtCore.QRect(990, 400, 101, 20))
         font = QtGui.QFont()
@@ -360,7 +360,7 @@ class Ui_MainWindow(object):
         font.setPointSize(16)
         self.label_12.setFont(font)
         self.label_12.setObjectName("label_12")
-        
+
         self.stackedWidget.addWidget(self.page_seleccion)
         ## SECCION DE SELECCION DE PRUEBA
 
@@ -406,8 +406,8 @@ class Ui_MainWindow(object):
         self.btnStart.setFont(font)
         self.btnStart.setStyleSheet("font: \"Exo\";")
         self.btnStart.setObjectName("btnStart")
-        
-        
+
+
         self.lblTiempo = QtWidgets.QLabel(self.page_ejecucion)
         self.lblTiempo.setGeometry(QtCore.QRect(510, 130, 541, 191))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -749,7 +749,7 @@ class Ui_MainWindow(object):
 
         self.btnRun.clicked.connect(self.mostrarPrueba)
         self.btnStart.clicked.connect(self.ejecutarPrueba)
-  
+
         self.btnStop.clicked.connect(self.detenerPrueba)
 
         self.btnReinicio.clicked.connect(self.reiniciarPrueba)
@@ -923,7 +923,7 @@ class Ui_MainWindow(object):
         milista[2]=self.comboBtnFicha2.currentIndex()+1 #ficha media
         milista[3]=self.comboBtnFicha1.currentIndex()+1 #ficha superior
         milista[4]=1
-        
+
         self.stackedWidget.setCurrentIndex(3)
 
         tiempoPrueba = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
@@ -938,11 +938,11 @@ class Ui_MainWindow(object):
         self.btnStop.hide()
 
         self.btnStart.setEnabled(True)
-        
+
 
     #Funcion para ejecutar prueba
     def ejecutarPrueba(self):
- 
+
         c = 10000*milista[0]+1000*milista[1]+100*milista[2]+10*milista[3]+milista[4]
         arduino.write(str(c).encode())
         arduino.flush()
@@ -994,7 +994,9 @@ class Ui_MainWindow(object):
         if val == 0:
             time.sleep(2)
 
-            text=arduino.read(arduino.inWaiting())
+            while arduino.inWaiting()<=0: # con esto esperamos hasta que el buffer del serial tenga algo
+                  print("esperando ... ")
+            text=arduino.read(1)
             mPiezasCorrectas=int(text)
             print(text)
             self.stackedWidget.setCurrentIndex(4)
@@ -1153,10 +1155,10 @@ class Ui_MainWindow(object):
         #arduino.write(temp.encode())
         #arduino.close()
         noFichas = b[midTipo][2] #o btenemos el valor del numero de fichas a partir de la DB
-        self.spinBox_2.setValue(noFichas) # seteamos el valor de noFichas a partir de la DB    
+        self.spinBox_2.setValue(noFichas) # seteamos el valor de noFichas a partir de la DB
         xTime = b[midTipo][3] # obtenemos el valor del tiempo a partir de la DB
-        some_time = QtCore.QTime(0, 0, 0).addSecs(xTime); # convertirmos el valor del tiempo a un formato horario 00:00 
-        self.timeEdit.setTime(some_time)# seteamos el valor del tiempo convertido a partir de la DB  
+        some_time = QtCore.QTime(0, 0, 0).addSecs(xTime); # convertirmos el valor del tiempo a un formato horario 00:00
+        self.timeEdit.setTime(some_time)# seteamos el valor del tiempo convertido a partir de la DB
 
     #Funcion para registrar un nuevo tipo de prueba en la BD
     def anadirListaTipos(self):
