@@ -42,8 +42,11 @@ milista = [0,0,0,0,0]
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        #self.setWindowFlags(QtCore.Qt.WindowCloseButtonHint, False)
+        
         MainWindow.setObjectName("MainWindow")
         MainWindow.showMaximized()
+        
         #MainWindow.resize(1280, 800)
 
         MainWindow.setStyleSheet("#centralwidget \n"
@@ -134,6 +137,36 @@ class Ui_MainWindow(object):
 
         ## SECCION BIENVENIDA O PAGINA INICIAL
         self.stackedWidget.addWidget(self.page_bienvenida)
+        
+        
+        self.empresaActual = QtWidgets.QLabel(self.page_bienvenida)
+        self.empresaActual.setGeometry(QtCore.QRect(800, 100, 500, 50))
+        empresas = etl.fromdb(connection, 'SELECT * FROM empresas')
+        emp=empresas[midEmpresa][1]
+        self.empresaActual.setText("Empresa Actual " + emp)
+        font = QtGui.QFont()
+        font.setFamily("Exo")
+        font.setPointSize(28)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(7)
+        self.empresaActual.setFont(font)
+        
+        self.cambiarEmpresa = QtWidgets.QPushButton(self.page_bienvenida)
+        self.cambiarEmpresa.setGeometry(QtCore.QRect(870, 150, 231, 41))
+        font = QtGui.QFont()
+        font.setFamily("Exo")
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(7)
+        self.cambiarEmpresa.setFont(font)
+        self.cambiarEmpresa.setObjectName("cambiarEmpresa")
+        self.cambiarEmpresa.setStyleSheet("border: 2px solid silver;\n"
+"  border-radius: 10px;\n"
+"  background: #ff4c4c;")
+     
+        
         self.page_registro = QtWidgets.QWidget()
         self.page_registro.setObjectName("page_registro")
         self.txtNombre = QtWidgets.QTextEdit(self.page_registro)
@@ -205,7 +238,7 @@ class Ui_MainWindow(object):
         self.loguito.setScaledContents(True)
         self.loguito.setObjectName("loguito")
 
-        ## SECCION DE REGISTRO DE EMPRESA
+        ## SECCION DE REGISTRO DE USUARIO
         self.stackedWidget.addWidget(self.page_registro)
         self.page_seleccion = QtWidgets.QWidget()
         self.page_seleccion.setObjectName("page_seleccion")
@@ -307,7 +340,10 @@ class Ui_MainWindow(object):
         font.setWeight(7)
         self.btnSeleccionarTipo.setFont(font)
         self.btnSeleccionarTipo.setObjectName("btnSeleccionarTipo")
-
+        self.btnSeleccionarTipo.setStyleSheet("border: 2px solid silver;\n"
+"  border-radius: 10px;\n"
+"  background: #ff4c4c;")
+        
         self.listWidgetPresets = QtWidgets.QListWidget(self.page_seleccion)
         self.listWidgetPresets.setGeometry(QtCore.QRect(120, 80, 291, 431))
         font = QtGui.QFont()
@@ -321,14 +357,14 @@ class Ui_MainWindow(object):
         self.listWidgetPresets.setObjectName("listWidgetPresets")
         item = QtWidgets.QListWidgetItem()
         self.listWidgetPresets.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidgetPresets.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidgetPresets.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidgetPresets.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        self.listWidgetPresets.addItem(item)
+        #item = QtWidgets.QListWidgetItem()
+        #self.listWidgetPresets.addItem(item)
+        #item = QtWidgets.QListWidgetItem()
+        #self.listWidgetPresets.addItem(item)
+        #item = QtWidgets.QListWidgetItem()
+        #self.listWidgetPresets.addItem(item)
+        #item = QtWidgets.QListWidgetItem()
+        #self.listWidgetPresets.addItem(item)
 
         self.label_10 = QtWidgets.QLabel(self.page_seleccion)
         self.label_10.setGeometry(QtCore.QRect(140, 50, 160, 20))
@@ -624,6 +660,21 @@ class Ui_MainWindow(object):
         font.setPointSize(16)
         self.label_8.setFont(font)
         self.label_8.setObjectName("label_8")
+        
+        self.btnBorrarEmpresa = QtWidgets.QPushButton(self.page_empresas)
+        self.btnBorrarEmpresa.setGeometry(QtCore.QRect(980, 320, 231, 41))
+        font = QtGui.QFont()
+        font.setFamily("Exo")
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(7)
+        self.btnBorrarEmpresa.setFont(font)
+        self.btnBorrarEmpresa.setObjectName("btnBorrarEmpresa")
+        self.btnBorrarEmpresa.setStyleSheet("border: 2px solid silver;\n"
+"  border-radius: 10px;\n"
+"  background: #ff4c4c;")
+        
         self.txtDireccionEmpresa = QtWidgets.QTextEdit(self.page_empresas)
         self.txtDireccionEmpresa.setGeometry(QtCore.QRect(380, 520, 361, 41))
         self.txtDireccionEmpresa.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
@@ -675,7 +726,7 @@ class Ui_MainWindow(object):
         # self.horizontalLayout_3.addWidget(self.listEmpresas)
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
         self.btnSeleccionarEmpresa = QtWidgets.QPushButton(self.page_empresas)
-        self.btnSeleccionarEmpresa.setGeometry(QtCore.QRect(980, 320, 231, 41))
+        self.btnSeleccionarEmpresa.setGeometry(QtCore.QRect(50, 320, 231, 41))
         self.btnSeleccionarEmpresa.setObjectName("btnSeleccionarEmpresa")
         self.loguito_6 = QtWidgets.QLabel(self.page_empresas)
         self.loguito_6.setGeometry(QtCore.QRect(30, 634, 45, 41))
@@ -728,10 +779,10 @@ class Ui_MainWindow(object):
         self.actionSalir.setStatusTip('Salir de la aplicación')
         self.actionSalir.triggered.connect(self.closeEvent)
         self.toolBar.addAction(self.actionInicio)
-        self.toolBar.addSeparator()
-        self.toolBar.addAction(self.actionConfiguraci_n)
-        self.toolBar.addSeparator()
-        self.toolBar.addAction(self.actionSalir)
+        #self.toolBar.addSeparator()
+        #self.toolBar.addAction(self.actionConfiguraci_n)
+        #self.toolBar.addSeparator()
+        #self.toolBar.addAction(self.actionSalir)
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -743,10 +794,13 @@ class Ui_MainWindow(object):
 
         self.btnGuardarEmpresa.clicked.connect(self.anadirListaEmpresas)#Al hacer clic en este boton mandamos a llamar a la funcion anadirListaEmpresas
         self.btnSeleccionarEmpresa.clicked.connect(self.seleccionarEmpresa)#Al hacer clic en este boton mandamos a llamar a la funcion seleccionarEmpresa
-
+        self.btnBorrarEmpresa.clicked.connect(self.borrarEmpresa)
+        
         self.btnAddPreset.clicked.connect(self.anadirListaTipos)#Al hacer clic en este boton mandamos a llamar a la funcion anadirListaTipos
-        self.btnSeleccionarTipo.clicked.connect(self.seleccionarTipo)
+        self.btnSeleccionarTipo.clicked.connect(self.borrarTipo)
 
+
+        self.cambiarEmpresa.clicked.connect(self.configuraciones)
         self.btnRun.clicked.connect(self.mostrarPrueba)
         self.btnStart.clicked.connect(self.ejecutarPrueba)
 
@@ -769,6 +823,12 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Nombre"))
         self.label_2.setText(_translate("MainWindow", "Sexo"))
         self.label_3.setText(_translate("MainWindow", "Edad"))
+        
+        self.cambiarEmpresa.setText(_translate("MainWindow", "Cambiar Empresa"))
+        self.btnBorrarEmpresa.setText(_translate("MainWindow", "BorrarEmpresa"))
+        
+        
+        
         self.comboBoxSexo.setItemText(0, _translate("MainWindow", "Masculino"))
         self.comboBoxSexo.setItemText(1, _translate("MainWindow", "Femenino"))
         self.btnAddPreset.setText(_translate("MainWindow", "Añadir prueba"))
@@ -785,11 +845,14 @@ class Ui_MainWindow(object):
         self.comboBtnFicha3.setItemText(0, _translate("MainWindow", "Azul"))
         self.comboBtnFicha3.setItemText(1, _translate("MainWindow", "Rojo"))
         self.comboBtnFicha3.setItemText(2, _translate("MainWindow", "Amarillo"))
-        self.btnSeleccionarTipo.setText(_translate("MainWindow", "Seleccionar prueba"))
+        self.btnSeleccionarTipo.setText(_translate("MainWindow", "Eliminar prueba"))
         __sortingEnabled = self.listWidgetPresets.isSortingEnabled()
         self.listWidgetPresets.setSortingEnabled(False)
 
         self.listWidgetPresets.setSortingEnabled(__sortingEnabled)
+        #
+        self.listWidgetPresets.clicked.connect(self.seleccionarTipo)
+        #
         self.label_10.setText(_translate("MainWindow", "Tipo de Pruebas"))
         self.label_12.setText(_translate("MainWindow", "Velocidad"))
         self.btnStop.setText(_translate("MainWindow", "STOP"))
@@ -866,7 +929,14 @@ class Ui_MainWindow(object):
 
     #Funcion para cambiar al panel inicio
     def menu_inicio(self):
+        global midEmpresa
+        
         self.stackedWidget.setCurrentIndex(0)
+        empresas = etl.fromdb(connection, 'SELECT * FROM empresas')
+        emp=empresas[midEmpresa][1]
+        self.empresaActual.setText("Empresa Actual " + emp)
+        
+        
 
     #Funcion para cambiar al panel registro de prueba
     def prueba(self):
@@ -919,6 +989,11 @@ class Ui_MainWindow(object):
         global tiempoPrueba
 
         milista[0]=int(self.speedBox.text()) #velocidad de giro
+        if milista[0] > 5:
+            milista[0] = 5
+        if milista[0] <1:
+            milista[0] = 1
+    
         milista[1]=self.comboBtnFicha3.currentIndex()+1 #ficha inferior
         milista[2]=self.comboBtnFicha2.currentIndex()+1 #ficha media
         milista[3]=self.comboBtnFicha1.currentIndex()+1 #ficha superior
@@ -927,6 +1002,8 @@ class Ui_MainWindow(object):
         self.stackedWidget.setCurrentIndex(3)
 
         tiempoPrueba = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
+        if tiempoPrueba < 5:
+            tiempoPrueba = 5
 
         t = str(datetime.timedelta(seconds=tiempoPrueba))
         self.lblTiempo.setText(t[2:])
@@ -943,9 +1020,9 @@ class Ui_MainWindow(object):
     #Funcion para ejecutar prueba
     def ejecutarPrueba(self):
 
-        c = 10000*milista[0]+1000*milista[1]+100*milista[2]+10*milista[3]+milista[4]
-        arduino.write(str(c).encode())
-        arduino.flush()
+        b = 10000*milista[0]+1000*milista[1]+100*milista[2]+10*milista[3]+milista[4]
+        
+        #arduino.flush()
         #arduino.close()
 
         global tiempoPrueba
@@ -958,10 +1035,17 @@ class Ui_MainWindow(object):
 
         #Se establece la variable tiempoPrueba al tiempo de la prueba seleccionado de forma global
         tiempoPrueba = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
-
+        if tiempoPrueba < 5:
+            tiempoPrueba = 5
+ 
         #Mostrar boton de stop
         self.btnStop.show()
+        
+        
+        c = (b*1000)+tiempoPrueba
 
+        print(c)
+        arduino.write(str(c).encode())
         #------ BEGIN: Hilo para el contador ------------
         self.threadclass = ThreadClass()
         self.threadclass.start()
@@ -971,10 +1055,12 @@ class Ui_MainWindow(object):
     #Funcion de paro de emergencia
     def detenerPrueba(self):
         stop="00000"
-        arduino.write(stop.encode())
-        #arduino.flush()
+        for x in range(15):
+            arduino.write(stop.encode())
+        
         #arduino.close()
         self.threadclass.terminate()
+        arduino.write(stop.encode())
         #Seteo de elementos UI
         self.lblTiempo.setStyleSheet("color: rgb(255,0,0)")
         self.btnStop.setEnabled(False)
@@ -992,11 +1078,15 @@ class Ui_MainWindow(object):
         self.lblTiempo.repaint()
         #Si el contador llega a 0 finaliza y cambia de panel
         if val == 0:
+            stop="00000"
+            for x in range(15):
+             arduino.write(stop.encode())
+        
             time.sleep(2)
 
             while arduino.inWaiting()<=0: # con esto esperamos hasta que el buffer del serial tenga algo
                   print("esperando ... ")
-            text=arduino.read(1)
+            text=arduino.read(arduino.inWaiting())
             mPiezasCorrectas=int(text)
             print(text)
             self.stackedWidget.setCurrentIndex(4)
@@ -1012,7 +1102,7 @@ class Ui_MainWindow(object):
             self.lblTiempo.repaint()
 
 
-            time.sleep(1)
+            self.sleep(1)
 
     #Funcion que cambia la UI de las fichas dependiendo de la prueba seleccionada
     def cambiarFichas(self,tipo):
@@ -1035,7 +1125,6 @@ class Ui_MainWindow(object):
 
         while tiempoTerminado:
             self.stackedWidget.setCurrentIndex(4)
-        print ("Debo cambiar")
 
 
 
@@ -1087,22 +1176,52 @@ class Ui_MainWindow(object):
     #Funcion para registrar una nueva empresa en la BD
     def anadirListaEmpresas(self):
         global iEmpresa
+        
+        a = self.listEmpresas.selectedIndexes()[0]        
+        cell = self.listEmpresas.item(a.row()).text()
+        reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
+            "Sobreescribir prueba seleccionada", QtWidgets.QMessageBox.Yes |
+            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
+        
+        if reply == QtWidgets.QMessageBox.Yes :
+            cur = connection.cursor()
 
-        table1 = [['nombre','sucursal','direccion'],[self.txtNombreEmpresa.toPlainText(),self.spinBoxEmpresa.value(),self.txtDireccionEmpresa.toPlainText()]]
-        etl.appenddb(table1, connection, 'empresas')
+            sql_query= """UPDATE empresas SET nombre = %s , sucursal = %s , direccion = %s WHERE nombre = %s"""
+            
+            nombre = self.txtNombreEmpresa.toPlainText()
+            sucursal = self.spinBoxEmpresa.value()
+            direccion = self.txtDireccionEmpresa.toPlainText()
+            input = (nombre, sucursal, direccion, cell)
+            
+            cur.execute(sql_query,input)
+            print(input)
+            connection.commit()          
+            cur.close()
+            
+        else :
+            table1 = [['nombre','sucursal','direccion'],[self.txtNombreEmpresa.toPlainText(),self.spinBoxEmpresa.value(),self.txtDireccionEmpresa.toPlainText()]]
+            
+            etl.appenddb(table1, connection, 'empresas')
+            
+            item = QtWidgets.QListWidgetItem()
+            self.listEmpresas.addItem(item)
+            
+            item = self.listEmpresas.item(iEmpresa)
+            
+            item.setText(self.txtNombreEmpresa.toPlainText())
+            
+        
+        
 
-        item = QtWidgets.QListWidgetItem()
-        self.listEmpresas.addItem(item)
-
-        item = self.listEmpresas.item(iEmpresa)
-        item.setText(self.txtNombreEmpresa.toPlainText())
 
     #Funcion para obtener el id de la empresa configurada
     def seleccionarEmpresa(self):
         global midEmpresa
         a = self.listEmpresas.selectedIndexes()[0]
         midEmpresa = a.row() + 1
-        print (midEmpresa)
+        empresas = etl.fromdb(connection, 'SELECT * FROM empresas')
+        emp=empresas[midEmpresa][1]
+        self.empresaActual.setText("Empresa Actual " + emp)
         self.stackedWidget.setCurrentIndex(0)
 
     #Funcion para eliminar el registro seleccionado
@@ -1112,7 +1231,7 @@ class Ui_MainWindow(object):
         print (cell)
 
         reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
-            "Estas seguro de borrar el registro: "+cell+"?", QtWidgets.QMessageBox.Yes |
+            "Estas seguro de borrar del registro la prueba: "+cell+"?", QtWidgets.QMessageBox.Yes |
             QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
 
         if reply == QtWidgets.QMessageBox.Yes:
@@ -1133,50 +1252,130 @@ class Ui_MainWindow(object):
                     self.tableWidgetHistorial.setItem(row_number, colum_number, QtWidgets.QTableWidgetItem(str(data)))
 
 
+    def borrarTipo(self):
+        
+        a = self.listWidgetPresets.selectedIndexes()[0]
+        #print (a.row())
+        cell = self.listWidgetPresets.item(a.row()).text()      
+        reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
+            "Estas seguro de borrar el registro: "+cell+"?", QtWidgets.QMessageBox.Yes |
+            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
+
+        if reply == QtWidgets.QMessageBox.Yes:
+            #Metodo para borrar un registro
+            cur = connection.cursor()
+            cur.execute("DELETE FROM tipos WHERE nombre='" + cell + "';")
+            connection.commit()
+            cur.close()
+            print('cell')
+            #Reseteamos el widget
+            self.listWidgetPresets.takeItem(a.row())
+            
+    def borrarEmpresa(self):
+        
+        a = self.listEmpresas.selectedIndexes()[0]
+        print (a.row())
+        cell = self.listEmpresas.item(a.row()).text()      
+        reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
+            "Estas seguro de borrar el registro: "+cell+"?", QtWidgets.QMessageBox.Yes |
+            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
+
+        if reply == QtWidgets.QMessageBox.Yes:
+            #Metodo para borrar un registro
+            cur = connection.cursor()
+            cur.execute("DELETE FROM empresas WHERE nombre='" + cell + "';")
+            connection.commit()
+            cur.close()
+            print('cell')
+            #Reseteamos el widget
+            self.listEmpresas.takeItem(a.row())
+
+
+
+
     #Funcion que cambia los elementos de la UI dependiendo de la prueba seleccionada en la lista
     def seleccionarTipo(self):
         global midTipo
         global noFichas
+
         a = self.listWidgetPresets.selectedIndexes()[0]
-        midTipo = a.row()
         tipos = etl.fromdb(connection, 'SELECT * FROM tipos') #obtenemos la informacion a partir de la DB
-        b = tipos.data() #guardamos esa info en una variable
+        size_tipos = len(tipos)- 1
+        midTipo = a.row()
+
+        if midTipo<size_tipos:
+            b = tipos.data() #guardamos esa info en una variable
         #print(b)
         #print(b[midTipo][4])
         #print(b[midTipo][5])
         #print(b[midTipo][6])
         #Cambiar contenido de elementos UI al tipo de prueba seleccionado
-        self.comboBtnFicha1.setCurrentIndex(b[midTipo][4] -1) # cambiamos el indice de la ficha y restamos 1 para asegurar el 0
-        self.comboBtnFicha2.setCurrentIndex(b[midTipo][5] -1) # cambiamos el indice de la ficha y restamos 1 para asegurar el 0
-        self.comboBtnFicha3.setCurrentIndex(b[midTipo][6] -1) # cambiamos el indice de la ficha y restamos 1 para asegurar el 0
-        self.speedBox.setValue(b[midTipo][7])
+            self.comboBtnFicha1.setCurrentIndex(b[midTipo][4] -1) # cambiamos el indice de la ficha y restamos 1 para asegurar el 0
+            self.comboBtnFicha2.setCurrentIndex(b[midTipo][5] -1) # cambiamos el indice de la ficha y restamos 1 para asegurar el 0
+            self.comboBtnFicha3.setCurrentIndex(b[midTipo][6] -1) # cambiamos el indice de la ficha y restamos 1 para asegurar el 0
+            self.speedBox.setValue(b[midTipo][7])
         #print(str(b[midTipo][7]))
         #temp = comando
         #arduino.write(temp.encode())
         #arduino.close()
-        noFichas = b[midTipo][2] #o btenemos el valor del numero de fichas a partir de la DB
-        self.spinBox_2.setValue(noFichas) # seteamos el valor de noFichas a partir de la DB
-        xTime = b[midTipo][3] # obtenemos el valor del tiempo a partir de la DB
-        some_time = QtCore.QTime(0, 0, 0).addSecs(xTime); # convertirmos el valor del tiempo a un formato horario 00:00
-        self.timeEdit.setTime(some_time)# seteamos el valor del tiempo convertido a partir de la DB
+            noFichas = b[midTipo][2] #o btenemos el valor del numero de fichas a partir de la DB
+            self.spinBox_2.setValue(noFichas) # seteamos el valor de noFichas a partir de la DB
+            xTime = b[midTipo][3] # obtenemos el valor del tiempo a partir de la DB
+            some_time = QtCore.QTime(0, 0, 0).addSecs(xTime); # convertirmos el valor del tiempo a un formato horario 00:00
+            self.timeEdit.setTime(some_time)# seteamos el valor del tiempo convertido a partir de la DB
 
     #Funcion para registrar un nuevo tipo de prueba en la BD
     def anadirListaTipos(self):
         global iTipos
-
-        text, okPressed = QtWidgets.QInputDialog.getText(MainWindow, "Guardar preset","Nombre del preset:", QtWidgets.QLineEdit.Normal, "")
-        if okPressed and text != '':
-            print(text)
+        
+        a = self.listWidgetPresets.selectedIndexes()[0]
+        
+        
+        cell = self.listWidgetPresets.item(a.row()).text()
+        
+        reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
+            "Sobreescribir prueba seleccionada", QtWidgets.QMessageBox.Yes |
+            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
+        
         seconds = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
+        
+        if reply == QtWidgets.QMessageBox.Yes :
+            print (a.row())
+            cur = connection.cursor()
+            
+            table1 = [['nofichas','tiempo','ficha1','ficha2','ficha3','velocidad'],[self.spinBox_2.value(),seconds,self.comboBtnFicha1.currentIndex() +1,self.comboBtnFicha2.currentIndex() +1,self.comboBtnFicha3.currentIndex() +1,self.speedBox.value()]]
+            sql_query= """UPDATE tipos SET nofichas = %s , tiempo = %s , ficha1 = %s , ficha2 = %s , ficha3 = %s , velocidad = %s WHERE nombre = %s"""
+            noficha = self.spinBox_2.value()
+            tiempo = seconds
+            ficha1 = self.comboBtnFicha1.currentIndex() +1
+            ficha2 = self.comboBtnFicha2.currentIndex() +1
+            ficha3 = self.comboBtnFicha3.currentIndex() +1
+            velocidad = self.speedBox.value()
+            input =(noficha,tiempo,ficha1,ficha2,ficha3,velocidad,cell)
+            print(sql_query)
+            print(input)
+            cur.execute(sql_query,input)
+            
+            connection.commit()          
+            cur.close()
+  
+        else :
+            text, okPressed = QtWidgets.QInputDialog.getText(MainWindow, "Guardar preset","Nombre del preset:", QtWidgets.QLineEdit.Normal, "")
+            if okPressed and text != '':
+                print(text)
+                
+                table1 = [['nombre','nofichas','tiempo','ficha1','ficha2','ficha3','velocidad'],[text,self.spinBox_2.value(),seconds,self.comboBtnFicha1.currentIndex() +1,self.comboBtnFicha2.currentIndex() +1,self.comboBtnFicha3.currentIndex() +1,self.speedBox.value()]]
+                etl.appenddb(table1, connection, 'tipos')
 
-        table1 = [['nombre','nofichas','tiempo','ficha1','ficha2','ficha3','velocidad'],[text,self.spinBox_2.value(),seconds,self.comboBtnFicha1.currentIndex() +1,self.comboBtnFicha2.currentIndex() +1,self.comboBtnFicha3.currentIndex() +1,self.speedBox.value()]]
-        etl.appenddb(table1, connection, 'tipos')
+                item = QtWidgets.QListWidgetItem()
+                self.listWidgetPresets.addItem(item)
 
-        item = QtWidgets.QListWidgetItem()
-        self.listWidgetPresets.addItem(item)
-
-        item = self.listWidgetPresets.item(iTipos)
-        item.setText(text)
+                item = self.listWidgetPresets.item(iTipos)
+                item.setText(text)
+            else:
+                error_diag = QtWidgets.QErrorMessage()
+                error_diag.showMessage('El nombre no puede quedar vacío')
+                error_diag.exec_()
 
     #Funcion para mostrar el panel de configuraciones
     def configuraciones(self):
@@ -1255,10 +1454,7 @@ class ThreadClass(QtCore.QThread):
         global tiempoPrueba
         global tiempoTerminado
         for segundos in range(tiempoPrueba,-1,-1):
-            #print ("Conteo: " + str(segundos))
-            if segundos <= 0:
-                stop="00000"
-                arduino.write(stop.encode())
+            
             self.holi.emit(segundos)
             self.sleep(1)
             #time.sleep(2)
