@@ -6,6 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+import sys, csv
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon
 
@@ -810,6 +811,32 @@ class Ui_MainWindow(object):
         self.btnFinalizar.clicked.connect(self.finalizarPrueba)
 
         self.btnDelete.clicked.connect(self.borarRegistro)
+        
+        self.btnEdit.clicked.connect(self.saveFile)
+        
+    def saveFile(self):
+        tabla = self.tableWidgetHistorial
+        rows = tabla.rowCount()
+        columns = tabla.columnCount()
+        
+        path, _ = QtWidgets.QFileDialog.getSaveFileName()
+        
+        if path:
+            path = path+'.csv'
+            with open(path,'w') as stream:
+                writer = csv.writer(stream, delimiter = '\t')
+                for row in range(rows):
+                    data = []
+                    for column in range (columns):
+                        item = tabla.item(row,column)
+                        if item is not None:
+                            data.append(item.text())
+                        else:
+                            data.append('')
+                    writer.writerow(data)
+                    
+                    
+        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -944,15 +971,18 @@ class Ui_MainWindow(object):
 
     #Funcion para cambiar al panel registro de prueba
     def historial(self):
+        global midEmpresa
         self.stackedWidget.setCurrentIndex(5)
         pruebas = etl.fromdb(connection, 'SELECT * FROM pruebas')
 
         self.tableWidgetHistorial.setRowCount(0)
-
+        
         for row_number, row_data in enumerate(pruebas.data()):
             self.tableWidgetHistorial.insertRow(row_number)
-            for colum_number, data in enumerate(row_data):
-                self.tableWidgetHistorial.setItem(row_number, colum_number, QtWidgets.QTableWidgetItem(str(data)))
+            if row_data[1] == midEmpresa:
+                for colum_number, data in enumerate(row_data):
+                
+                    self.tableWidgetHistorial.setItem(row_number, colum_number, QtWidgets.QTableWidgetItem(str(data)))
 
 
     #Funcion para añadir el registro de una nueva prueba (datos de la persona)
@@ -1177,30 +1207,43 @@ class Ui_MainWindow(object):
     def anadirListaEmpresas(self):
         global iEmpresa
         
-        a = self.listEmpresas.selectedIndexes()[0]        
-        cell = self.listEmpresas.item(a.row()).text()
-        reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
-            "Sobreescribir prueba seleccionada", QtWidgets.QMessageBox.Yes |
-            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
-        
-        if reply == QtWidgets.QMessageBox.Yes :
-            cur = connection.cursor()
+        b = self.listEmpresas.selectedItems()
+        if b:
+            a = self.listEmpresas.selectedIndexes()[0]        
+            cell = self.listEmpresas.item(a.row()).text()
+            reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
+                "Sobreescribir prueba seleccionada", QtWidgets.QMessageBox.Yes |
+                QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
+            
+            if reply == QtWidgets.QMessageBox.Yes :
+                cur = connection.cursor()
 
-            sql_query= """UPDATE empresas SET nombre = %s , sucursal = %s , direccion = %s WHERE nombre = %s"""
-            
-            nombre = self.txtNombreEmpresa.toPlainText()
-            sucursal = self.spinBoxEmpresa.value()
-            direccion = self.txtDireccionEmpresa.toPlainText()
-            input = (nombre, sucursal, direccion, cell)
-            
-            cur.execute(sql_query,input)
-            print(input)
-            connection.commit()          
-            cur.close()
-            
+                sql_query= """UPDATE empresas SET nombre = %s , sucursal = %s , direccion = %s WHERE nombre = %s"""
+                
+                nombre = self.txtNombreEmpresa.toPlainText()
+                sucursal = self.spinBoxEmpresa.value()
+                direccion = self.txtDireccionEmpresa.toPlainText()
+                input = (nombre, sucursal, direccion, cell)
+                
+                cur.execute(sql_query,input)
+                print(input)
+                connection.commit()          
+                cur.close()
+                
+            else :
+                table1 = [['nombre','sucursal','direccion'],[self.txtNombreEmpresa.toPlainText(),self.spinBoxEmpresa.value(),self.txtDireccionEmpresa.toPlainText()]]
+                
+                etl.appenddb(table1, connection, 'empresas')
+                
+                item = QtWidgets.QListWidgetItem()
+                self.listEmpresas.addItem(item)
+                
+                item = self.listEmpresas.item(iEmpresa)
+                
+                item.setText(self.txtNombreEmpresa.toPlainText())
         else :
             table1 = [['nombre','sucursal','direccion'],[self.txtNombreEmpresa.toPlainText(),self.spinBoxEmpresa.value(),self.txtDireccionEmpresa.toPlainText()]]
-            
+                
             etl.appenddb(table1, connection, 'empresas')
             
             item = QtWidgets.QListWidgetItem()
@@ -1208,8 +1251,8 @@ class Ui_MainWindow(object):
             
             item = self.listEmpresas.item(iEmpresa)
             
-            item.setText(self.txtNombreEmpresa.toPlainText())
-            
+            item.setText(self.txtNombreEmpresa.toPlainText())  
+                
         
         
 
@@ -1228,7 +1271,7 @@ class Ui_MainWindow(object):
     def borarRegistro(self):
         a = self.tableWidgetHistorial.selectedIndexes()[0]
         cell = self.tableWidgetHistorial.item(a.row(),0).text()
-        print (cell)
+       
 
         reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
             "Estas seguro de borrar del registro la prueba: "+cell+"?", QtWidgets.QMessageBox.Yes |
@@ -1328,48 +1371,61 @@ class Ui_MainWindow(object):
     def anadirListaTipos(self):
         global iTipos
         
-        a = self.listWidgetPresets.selectedIndexes()[0]
-        
-        
-        cell = self.listWidgetPresets.item(a.row()).text()
-        
-        reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
-            "Sobreescribir prueba seleccionada", QtWidgets.QMessageBox.Yes |
-            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
-        
         seconds = QtCore.QTime(0, 0, 0).secsTo(self.timeEdit.time());
-        
-        if reply == QtWidgets.QMessageBox.Yes :
-            print (a.row())
-            cur = connection.cursor()
+        b = self.listWidgetPresets.selectedItems()
+        if b:
+            a = self.listWidgetPresets.selectedIndexes()[0]  
+            cell = self.listWidgetPresets.item(a.row()).text()
+            reply = QtWidgets.QMessageBox.question(MainWindow, 'Message',
+                "Sobreescribir prueba seleccionada", QtWidgets.QMessageBox.Yes |
+                QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
             
-            table1 = [['nofichas','tiempo','ficha1','ficha2','ficha3','velocidad'],[self.spinBox_2.value(),seconds,self.comboBtnFicha1.currentIndex() +1,self.comboBtnFicha2.currentIndex() +1,self.comboBtnFicha3.currentIndex() +1,self.speedBox.value()]]
-            sql_query= """UPDATE tipos SET nofichas = %s , tiempo = %s , ficha1 = %s , ficha2 = %s , ficha3 = %s , velocidad = %s WHERE nombre = %s"""
-            noficha = self.spinBox_2.value()
-            tiempo = seconds
-            ficha1 = self.comboBtnFicha1.currentIndex() +1
-            ficha2 = self.comboBtnFicha2.currentIndex() +1
-            ficha3 = self.comboBtnFicha3.currentIndex() +1
-            velocidad = self.speedBox.value()
-            input =(noficha,tiempo,ficha1,ficha2,ficha3,velocidad,cell)
-            print(sql_query)
-            print(input)
-            cur.execute(sql_query,input)
-            
-            connection.commit()          
-            cur.close()
-  
+            if reply == QtWidgets.QMessageBox.Yes :
+                print (a.row())
+                cur = connection.cursor()
+                
+                table1 = [['nofichas','tiempo','ficha1','ficha2','ficha3','velocidad'],[self.spinBox_2.value(),seconds,self.comboBtnFicha1.currentIndex() +1,self.comboBtnFicha2.currentIndex() +1,self.comboBtnFicha3.currentIndex() +1,self.speedBox.value()]]
+                sql_query= """UPDATE tipos SET nofichas = %s , tiempo = %s , ficha1 = %s , ficha2 = %s , ficha3 = %s , velocidad = %s WHERE nombre = %s"""
+                noficha = self.spinBox_2.value()
+                tiempo = seconds
+                ficha1 = self.comboBtnFicha1.currentIndex() +1
+                ficha2 = self.comboBtnFicha2.currentIndex() +1
+                ficha3 = self.comboBtnFicha3.currentIndex() +1
+                velocidad = self.speedBox.value()
+                input =(noficha,tiempo,ficha1,ficha2,ficha3,velocidad,cell)
+                print(sql_query)
+                print(input)
+                cur.execute(sql_query,input)
+                
+                connection.commit()          
+                cur.close()
+      
+            else :
+                text, okPressed = QtWidgets.QInputDialog.getText(MainWindow, "Guardar preset","Nombre del preset:", QtWidgets.QLineEdit.Normal, "")
+                if okPressed and text != '':
+                    print(text)
+                    
+                    table1 = [['nombre','nofichas','tiempo','ficha1','ficha2','ficha3','velocidad'],[text,self.spinBox_2.value(),seconds,self.comboBtnFicha1.currentIndex() +1,self.comboBtnFicha2.currentIndex() +1,self.comboBtnFicha3.currentIndex() +1,self.speedBox.value()]]
+                    etl.appenddb(table1, connection, 'tipos')
+
+                    item = QtWidgets.QListWidgetItem()
+                    self.listWidgetPresets.addItem(item)
+
+                    item = self.listWidgetPresets.item(iTipos)
+                    item.setText(text)
+                else:
+                    error_diag = QtWidgets.QErrorMessage()
+                    error_diag.showMessage('El nombre no puede quedar vacío')
+                    error_diag.exec_()
         else :
             text, okPressed = QtWidgets.QInputDialog.getText(MainWindow, "Guardar preset","Nombre del preset:", QtWidgets.QLineEdit.Normal, "")
             if okPressed and text != '':
-                print(text)
-                
+ 
                 table1 = [['nombre','nofichas','tiempo','ficha1','ficha2','ficha3','velocidad'],[text,self.spinBox_2.value(),seconds,self.comboBtnFicha1.currentIndex() +1,self.comboBtnFicha2.currentIndex() +1,self.comboBtnFicha3.currentIndex() +1,self.speedBox.value()]]
                 etl.appenddb(table1, connection, 'tipos')
 
                 item = QtWidgets.QListWidgetItem()
                 self.listWidgetPresets.addItem(item)
-
                 item = self.listWidgetPresets.item(iTipos)
                 item.setText(text)
             else:
