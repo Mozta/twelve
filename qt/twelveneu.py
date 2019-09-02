@@ -576,13 +576,15 @@ class Ui_MainWindow(object):
         # self.listWidgetHistorial.addItem(item)
         # self.horizontalLayout_2.addWidget(self.listWidgetHistorial)
         # self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.btnDelete = QtWidgets.QToolButton(self.page_historial)
-        self.btnDelete.setGeometry(QtCore.QRect(1090, 560, 36, 36))
-        self.btnDelete.setText("")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("images/delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btnDelete.setIcon(icon)
-        self.btnDelete.setObjectName("btnDelete")
+        
+        ######
+        #self.btnDelete.setGeometry(QtCore.QRect(1090, 560, 36, 36))
+        #self.btnDelete.setText("")
+        #icon = QtGui.QIcon()
+        #icon.addPixmap(QtGui.QPixmap("images/delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        #self.btnDelete.setIcon(icon)
+        #self.btnDelete.setObjectName("btnDelete")
+        ######
         self.btnEdit = QtWidgets.QToolButton(self.page_historial)
         self.btnEdit.setGeometry(QtCore.QRect(1140, 560, 36, 36))
         self.btnEdit.setText("")
@@ -590,6 +592,7 @@ class Ui_MainWindow(object):
         icon1.addPixmap(QtGui.QPixmap("images/edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnEdit.setIcon(icon1)
         self.btnEdit.setObjectName("btnEdit")
+        
         self.btnExport = QtWidgets.QToolButton(self.page_historial)
         self.btnExport.setGeometry(QtCore.QRect(1190, 560, 36, 36))
         self.btnExport.setText("")
@@ -810,9 +813,18 @@ class Ui_MainWindow(object):
         self.btnReinicio.clicked.connect(self.reiniciarPrueba)
         self.btnFinalizar.clicked.connect(self.finalizarPrueba)
 
-        self.btnDelete.clicked.connect(self.borarRegistro)
+        #self.btnDelete.clicked.connect(self.borarRegistro)
         
         self.btnEdit.clicked.connect(self.saveFile)
+        self.btnExport.clicked.connect(self.showGraph)
+        
+    def showGraph(self):
+        self.grafx = QtWidgets.QDialog()
+        print('reg')
+        
+        ##COLOCAR AQUI LA GRAFICA
+        
+        self.grafx.exec_()
         
     def saveFile(self):
         tabla = self.tableWidgetHistorial
